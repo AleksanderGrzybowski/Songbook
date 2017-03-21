@@ -7,9 +7,7 @@ import org.springframework.stereotype.Component;
 import songbook.song.Song;
 import songbook.song.SongRepository;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.stream.IntStream;
+import static java.util.Arrays.asList;
 
 @Component
 public class ApplicationStartup implements ApplicationListener<ApplicationReadyEvent> {
@@ -23,10 +21,14 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
     
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        SecureRandom random = new SecureRandom();
-        
-        IntStream.rangeClosed(1, 10).forEach(i ->
-                repository.save(new Song("" + i + "_" + new BigInteger(130, random).toString(32)))
-        );
+        asList(
+                "My mamy wizję",
+                "Alleluja chwalcie Pana",
+                "Chcemy Ciebie wielbić",
+                "Choć, to czas by wielbić",
+                "Łaska Twoja",
+                "Nie mam nic",
+                "Stwórz serce czyste"
+        ).forEach(title -> repository.save(new Song(title)));
     }
 }
