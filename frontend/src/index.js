@@ -4,7 +4,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { connect, Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { health, songList } from './reducers';
-import { healthCheck, fetchAllSongs } from './actions';
+import { healthCheck, fetchAllSongs, fetchSongsFiltered } from './actions';
 import App from './App';
 import createLogger from 'redux-logger';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -15,7 +15,9 @@ const store = createStore(
 );
 
 const mapStateToProps = (state) => state;
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+    fetchSongsFiltered: (query) => dispatch(fetchSongsFiltered(query))
+});
 
 const LiveApp = connect(mapStateToProps, mapDispatchToProps)(App);
 

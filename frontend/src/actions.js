@@ -25,3 +25,14 @@ export const fetchAllSongs = () => (dispatch) => {
             dispatch(backendNotHealthy());
         })
 };
+
+export const fetchSongsFiltered = (query) => (dispatch) => {
+    dispatch(loadSongsRequestStarted());
+
+    axios.get(`${backendUrl}/songs?query=${query}`)
+        .then(({data}) => dispatch(loadSongs(data)))
+        .catch(err => {
+            console.log(err);
+            dispatch(backendNotHealthy());
+        })
+};
