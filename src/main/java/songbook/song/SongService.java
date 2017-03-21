@@ -17,4 +17,8 @@ public class SongService {
     public List<Song> list() {
         return repository.findAll();
     }
+    
+    public List<Song> filter(String query) {
+        return repository.findByTitleIgnoreCaseContaining(query);
+    }
 }

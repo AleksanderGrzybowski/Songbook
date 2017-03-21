@@ -3,6 +3,7 @@ package songbook.song;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,8 +21,10 @@ public class SongController {
     }
     
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<SongDto> list() {
-        return service.list().stream().map(song -> new SongDto(song.getTitle())).collect(toList());
+    public List<SongDto> list(@RequestParam(value = "query", required = false) String query) {
+        List<Song> songs = (query == null) ? service.list() : service.filter(query);
+        
+        return songs.stream().map(song -> new SongDto(song.getTitle())).collect(toList());
     }
     
     static class SongDto {
