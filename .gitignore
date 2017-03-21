@@ -1,0 +1,16 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
+frontend/node_modules/
+frontend/build/
+
+.idea/
+out/
+build/
+.gradle/
+
+# misc
+.DS_Store
+.env
+npm-debug.log*
+yarn-debug.log*
+
