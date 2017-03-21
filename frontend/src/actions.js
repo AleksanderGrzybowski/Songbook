@@ -13,3 +13,12 @@ export const healthCheck = () => (dispatch) => {
         })
 };
 
+const loadSongs = (data) => ({type: 'LOAD_SONGS', songs: data});
+export const fetchAllSongs = () => (dispatch) => {
+    axios.get(`${backendUrl}/songs`)
+        .then(({data}) => dispatch(loadSongs(data)))
+        .catch(err => {
+            console.log(err);
+            dispatch(backendNotHealthy());
+        })
+};

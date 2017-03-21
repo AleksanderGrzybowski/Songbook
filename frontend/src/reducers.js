@@ -9,3 +9,13 @@ export const health = (state = initialStateHealth, action) => {
             return state;
     }
 };
+
+const initialStateSongList = {songs: []};
+export const songList = (state = initialStateSongList, action) => {
+    switch (action.type) {
+        case 'LOAD_SONGS':
+            return Object.assign({}, state, {songs: action.songs});
+        default:
+            return state;
+    }
+};
