@@ -17,7 +17,10 @@ class App extends Component {
                     </Col>
                 </Row>
                     <Col md={6} mdPush={3}>
-                        <SongList songs={this.props.songList.songs}/>
+                        <SongList 
+                            songs={this.props.songList.songs}
+                            requestInProgress={this.props.songList.requestInProgress}
+                        />
                     </Col>
             </Grid>
         )

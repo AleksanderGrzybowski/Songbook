@@ -14,7 +14,10 @@ export const healthCheck = () => (dispatch) => {
 };
 
 const loadSongs = (data) => ({type: 'LOAD_SONGS', songs: data});
+export const loadSongsRequestStarted = () => ({type: 'LOAD_SONGS_REQUEST_STARTED'});
 export const fetchAllSongs = () => (dispatch) => {
+    dispatch(loadSongsRequestStarted());
+    
     axios.get(`${backendUrl}/songs`)
         .then(({data}) => dispatch(loadSongs(data)))
         .catch(err => {

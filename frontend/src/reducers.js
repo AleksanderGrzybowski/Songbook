@@ -10,11 +10,13 @@ export const health = (state = initialStateHealth, action) => {
     }
 };
 
-const initialStateSongList = {songs: []};
+const initialStateSongList = {requestInProgress: false, songs: []};
 export const songList = (state = initialStateSongList, action) => {
     switch (action.type) {
+        case 'LOAD_SONGS_REQUEST_STARTED':
+            return Object.assign({}, state, {requestInProgress: true});
         case 'LOAD_SONGS':
-            return Object.assign({}, state, {songs: action.songs});
+            return Object.assign({}, state, {requestInProgress: false, songs: action.songs});
         default:
             return state;
     }
