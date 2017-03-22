@@ -30,6 +30,7 @@ class App extends Component {
             <Lyrics
                 title={this.props.songWithLyrics.title}
                 text={this.props.songWithLyrics.text}
+                goBack={() => this.props.changeView('search')}
             />
         );
 
