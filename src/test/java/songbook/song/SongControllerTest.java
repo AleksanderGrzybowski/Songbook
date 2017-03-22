@@ -7,6 +7,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
@@ -23,11 +24,11 @@ public class SongControllerTest {
     private SongService service;
     
     public SongControllerTest() {
-        Song song = new Song("first");
+        Song song = new Song("first", "first_text");
         song.setId(1L);
         songs.add(song);
         
-        song = new Song("second");
+        song = new Song("second", "second_text");
         song.setId(2L);
         songs.add(song);
     }
@@ -64,6 +65,29 @@ public class SongControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)));
         
         verify(service, atLeastOnce()).filter("first");
+    }
+    
+    @Test
+    public void should_find_and_list_song_with_its_lyrics() throws Exception {
+        when(service.findById(1L)).thenReturn(Optional.of(songs.get(0)));
+        
+        mockMvc.perform(MockMvcRequestBuilders.get("/songs/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is("first")))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.text", is("first_text")));
+        
+        verify(service, atLeastOnce()).findById(1L);
+    }
+    
+    @Test
+    public void should_404_if_song_was_not_found() throws Exception {
+        when(service.findById(1L)).thenReturn(Optional.empty());
+        
+        mockMvc.perform(MockMvcRequestBuilders.get("/songs/1"))
+                .andExpect(status().isNotFound());
+        
+        verify(service, atLeastOnce()).findById(1L);
     }
     
 }

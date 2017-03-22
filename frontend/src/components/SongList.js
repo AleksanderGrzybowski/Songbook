@@ -5,7 +5,7 @@ export default class SongList extends Component {
     render() {
         const items = this.props.songs.map(song => (
             <ListGroupItem key={song.id}>
-                <span>{song.title}</span>
+                <span onClick={this.props.fetchAndDisplaySongWithLyrics.bind(this, song.id)}>{song.title}</span>
             </ListGroupItem>
         ));
 

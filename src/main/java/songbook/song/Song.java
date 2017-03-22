@@ -13,11 +13,14 @@ public class Song {
     
     private String title;
     
+    private String text;
+    
     public Song() {
     }
     
-    public Song(String title) {
+    public Song(String title, String text) {
         this.title = title;
+        this.text = text;
     }
     
     public Long getId() {
@@ -34,5 +37,13 @@ public class Song {
     
     public void setTitle(String title) {
         this.title = title;
+    }
+    
+    public String getText() {
+        return text;
+    }
+    
+    public void setText(String text) {
+        this.text = text;
     }
 }

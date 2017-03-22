@@ -29,6 +29,6 @@ public class ApplicationStartup implements ApplicationListener<ApplicationReadyE
                 "Łaska Twoja",
                 "Nie mam nic",
                 "Stwórz serce czyste"
-        ).forEach(title -> repository.save(new Song(title)));
+        ).forEach(title -> repository.save(new Song(title, title + "_text")));
     }
 }

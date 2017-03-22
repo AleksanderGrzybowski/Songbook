@@ -34,3 +34,13 @@ export const songList = (state = initialStateSongList, action) => {
             return state;
     }
 };
+
+const initialStateSongWithLyrics = {title: '', text: ''};
+export const songWithLyrics = (state = initialStateSongWithLyrics, action) => {
+    switch (action.type) {
+        case 'LOAD_SONG_WITH_LYRICS':
+            return action.song;
+        default:
+            return state;
+    }
+};

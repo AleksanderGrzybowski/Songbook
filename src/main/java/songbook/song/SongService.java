@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SongService {
@@ -20,5 +21,9 @@ public class SongService {
     
     public List<Song> filter(String query) {
         return repository.findByTitleIgnoreCaseContaining(query);
+    }
+    
+    public Optional<Song> findById(long id) {
+        return repository.findById(id);
     }
 }

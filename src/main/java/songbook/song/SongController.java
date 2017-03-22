@@ -1,12 +1,12 @@
 package songbook.song;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -27,6 +27,19 @@ public class SongController {
         return songs.stream().map(song -> new SongDto(song.getTitle(), song.getId())).collect(toList());
     }
     
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<SongWithLyricsDto> listByIdWithLyrics(@PathVariable("id") Long id) {
+        Optional<Song> song = service.findById(id);
+        if (song.isPresent()) {
+            return new ResponseEntity<>(
+                    new SongWithLyricsDto(song.get().getId(), song.get().getTitle(), song.get().getText()),
+                    HttpStatus.OK
+            );
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
     static class SongDto {
         public final String title;
         
@@ -35,6 +48,16 @@ public class SongController {
         public SongDto(String title, Long id) {
             this.title = title;
             this.id = id;
+        }
+    }
+    
+    static class SongWithLyricsDto extends SongDto {
+        
+        public final String text;
+        
+        public SongWithLyricsDto(Long id, String title, String text) {
+            super(title, id);
+            this.text = text;
         }
     }
     

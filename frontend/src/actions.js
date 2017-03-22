@@ -19,7 +19,7 @@ const loadSongs = (data) => ({type: 'LOAD_SONGS', songs: data});
 export const loadSongsRequestStarted = () => ({type: 'LOAD_SONGS_REQUEST_STARTED'});
 export const fetchAllSongs = () => (dispatch) => {
     dispatch(loadSongsRequestStarted());
-    
+
     axios.get(`${backendUrl}/songs`)
         .then(({data}) => dispatch(loadSongs(data)))
         .catch(err => {
@@ -33,6 +33,20 @@ export const fetchSongsFiltered = (query) => (dispatch) => {
 
     axios.get(`${backendUrl}/songs?query=${query}`)
         .then(({data}) => dispatch(loadSongs(data)))
+        .catch(err => {
+            console.log(err);
+            dispatch(backendNotHealthy());
+        })
+};
+
+const loadSongWithLyrics = (data) => ({type: 'LOAD_SONG_WITH_LYRICS', song: data});
+export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
+    axios.get(`${backendUrl}/songs/${id}`)
+        .then(({data}) => {
+            dispatch(loadSongWithLyrics(data));
+            dispatch(changeView('lyrics'));
+
+        })
         .catch(err => {
             console.log(err);
             dispatch(backendNotHealthy());
