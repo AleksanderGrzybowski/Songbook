@@ -13,7 +13,11 @@ import static org.mockito.Mockito.*;
 
 public class SongServiceTest {
     
-    private List<Song> songs = asList(new Song("first", "first_text"), new Song("second", "second_text"));
+    private List<Song> songs = asList(
+            new Song(1L, "first", "first_text"),
+            new Song(2L, "second", "second_text")
+    );
+    
     private SongService service;
     private SongRepository repository;
     
@@ -45,15 +49,11 @@ public class SongServiceTest {
     
     @Test
     public void should_find_song_by_id() {
-        Song sampleSong = new Song("first", "first_text");
-        sampleSong.setId(1L);
-        
-        when(repository.findById(1L)).thenReturn(Optional.of(sampleSong));
+        when(repository.findById(1L)).thenReturn(Optional.of(songs.get(0)));
         
         Optional<Song> result = service.findById(1L);
         
-        assertThat(result).isEqualTo(Optional.of(sampleSong));
+        assertThat(result).isEqualTo(Optional.of(songs.get(0)));
         verify(repository, atLeastOnce()).findById(1L);
     }
-    
 }

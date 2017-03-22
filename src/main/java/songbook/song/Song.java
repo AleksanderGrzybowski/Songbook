@@ -15,10 +15,12 @@ public class Song {
     
     private String text;
     
+    @SuppressWarnings("unused")
     public Song() {
     }
     
-    public Song(String title, String text) {
+    public Song(Long id, String title, String text) {
+        this.id = id;
         this.title = title;
         this.text = text;
     }

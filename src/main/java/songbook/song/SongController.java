@@ -22,17 +22,21 @@ public class SongController {
     
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<SongDto> list(@RequestParam(value = "query", required = false) String query) {
-        List<Song> songs = (query == null) ? service.list() : service.filter(query);
         
-        return songs.stream().map(song -> new SongDto(song.getTitle(), song.getId())).collect(toList());
+        return ((query == null) ? service.list() : service.filter(query))
+                .stream()
+                .map(song -> new SongDto(song.getTitle(), song.getId()))
+                .collect(toList());
     }
     
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity<SongWithLyricsDto> listByIdWithLyrics(@PathVariable("id") Long id) {
-        Optional<Song> song = service.findById(id);
-        if (song.isPresent()) {
+        Optional<Song> optional = service.findById(id);
+        
+        if (optional.isPresent()) {
+            Song song = optional.get();
             return new ResponseEntity<>(
-                    new SongWithLyricsDto(song.get().getId(), song.get().getTitle(), song.get().getText()),
+                    new SongWithLyricsDto(song.getId(), song.getTitle(), song.getText()),
                     HttpStatus.OK
             );
         } else {

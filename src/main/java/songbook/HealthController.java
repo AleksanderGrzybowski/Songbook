@@ -14,6 +14,7 @@ public class HealthController {
     }
     
     
+    @SuppressWarnings("unused")
     static class BackendHealthy {
         public final String status = "OK";
     }

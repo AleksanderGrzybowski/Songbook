@@ -12,7 +12,6 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 public class HealthControllerTest {
     
-    
     private MockMvc mockMvc;
     
     @Before
