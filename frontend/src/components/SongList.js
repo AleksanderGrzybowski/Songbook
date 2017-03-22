@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
-import { ListGroup, ListGroupItem } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 
-export default class SongList extends Component {
-    render() {
-        const items = this.props.songs.map(song => (
-            <ListGroupItem key={song.id}>
-                <span onClick={this.props.fetchAndDisplaySongWithLyrics.bind(this, song.id)}>{song.title}</span>
-            </ListGroupItem>
-        ));
-
-        return (
-            <ListGroup>
-                {items}
-            </ListGroup>
-        )
+const SongList = ({songs, fetchAndDisplaySongWithLyrics}) => {
+    if (songs.length === 0) {
+        return <h3 className="text-center">No results...</h3>
     }
-}
+
+    const items = songs.map(song => (
+        <a
+            key={song.id}
+            style={{cursor: 'pointer'}}
+            className="list-group-item"
+            onClick={() => fetchAndDisplaySongWithLyrics(song.id)}
+        >
+            {song.title}
+        </a>
+    ));
+
+    return (
+        <ListGroup>
+            {items}
+        </ListGroup>
+    )
+};
+
+export default SongList;

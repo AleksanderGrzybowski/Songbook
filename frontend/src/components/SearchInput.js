@@ -1,34 +1,17 @@
 import React, { Component } from 'react';
 import { Row, Col, Grid, FormGroup, FormControl } from 'react-bootstrap';
 
-export default class SearchInput extends Component {
-    constructor(props) {
-        super(props);
+const SearchInput = ({text, inputChanged}) => (
+    <h1 className="text-center">
+        <FormGroup bsSize="large">
+            <FormControl
+                type="text"
+                placeholder="Search..."
+                value={text}
+                onChange={e => inputChanged(e.target.value)}
+            />
+        </FormGroup>
+    </h1>
+);
 
-        this.state = {
-            query: ''
-        }
-    }
-
-    handleChange = (e) => {
-        const query = e.target.value;
-        this.setState({query: query});
-        this.props.fetchSongsFiltered(query)
-    };
-
-    render() {
-        return (
-            <h1 className="text-center">
-                <FormGroup bsSize="large">
-                    <FormControl
-                        type="text"
-                        placeholder="Search..."
-                        value={this.state.query}
-                        onChange={this.handleChange}
-                    />
-                </FormGroup>
-            </h1>
-
-        )
-    }
-}
+export default SearchInput;

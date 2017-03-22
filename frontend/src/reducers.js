@@ -23,6 +23,16 @@ export const view = (state = initialStateView, action) => {
     }
 };
 
+const initialStateSearchInput = '';
+export const searchInput = (state = initialStateSearchInput, action) => {
+    switch (action.type) {
+        case 'SEARCH_INPUT_CHANGED':
+            return action.text;
+        default:
+            return state;
+    }
+};
+
 const initialStateSongList = {requestInProgress: false, songs: []};
 export const songList = (state = initialStateSongList, action) => {
     switch (action.type) {

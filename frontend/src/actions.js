@@ -39,6 +39,11 @@ export const fetchSongsFiltered = (query) => (dispatch) => {
         })
 };
 
+export const searchInputChanged = (text) => (dispatch) => {
+    dispatch({type: 'SEARCH_INPUT_CHANGED', text});
+    dispatch(fetchSongsFiltered(text));
+};
+
 const loadSongWithLyrics = (data) => ({type: 'LOAD_SONG_WITH_LYRICS', song: data});
 export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
     axios.get(`${backendUrl}/songs/${id}`)

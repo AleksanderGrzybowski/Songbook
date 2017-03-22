@@ -4,13 +4,17 @@ import { Row, Col, Grid } from 'react-bootstrap';
 import SongList from './components/SongList';
 import SearchInput from './components/SearchInput';
 import Lyrics from './components/Lyrics';
+
 class App extends Component {
     render() {
         const searchView = (
             <div>
                 <Row>
-                    <Col md={12}>
-                        <SearchInput fetchSongsFiltered={this.props.fetchSongsFiltered}/>
+                    <Col md={6} mdPush={3}>
+                        <SearchInput 
+                            text={this.props.searchInput}
+                            inputChanged={this.props.searchInputChanged}
+                            fetchSongsFiltered={this.props.fetchSongsFiltered}/>
                     </Col>
                 </Row>
                 <Row>
