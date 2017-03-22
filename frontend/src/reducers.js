@@ -10,6 +10,19 @@ export const health = (state = initialStateHealth, action) => {
     }
 };
 
+const initialStateView = {
+    currentView: 'search',
+};
+
+export const view = (state = initialStateView, action) => {
+    switch (action.type) {
+        case 'CHANGE_VIEW':
+            return Object.assign({}, state, {currentView: action.view});
+        default:
+            return state;
+    }
+};
+
 const initialStateSongList = {requestInProgress: false, songs: []};
 export const songList = (state = initialStateSongList, action) => {
     switch (action.type) {

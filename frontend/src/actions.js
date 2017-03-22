@@ -13,6 +13,8 @@ export const healthCheck = () => (dispatch) => {
         })
 };
 
+export const changeView = (view) => ({type: 'CHANGE_VIEW', view});
+
 const loadSongs = (data) => ({type: 'LOAD_SONGS', songs: data});
 export const loadSongsRequestStarted = () => ({type: 'LOAD_SONGS_REQUEST_STARTED'});
 export const fetchAllSongs = () => (dispatch) => {
