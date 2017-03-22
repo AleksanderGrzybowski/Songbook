@@ -9,7 +9,7 @@ export default class SongList extends Component {
         }
 
         const items = this.props.songs.map(song => (
-            <ListGroupItem>
+            <ListGroupItem key={song.id}>
                 <span>{song.title}</span>
             </ListGroupItem>
         ));

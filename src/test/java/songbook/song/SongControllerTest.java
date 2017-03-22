@@ -5,9 +5,9 @@ import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
@@ -18,9 +18,19 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 public class SongControllerTest {
     
-    private List<Song> songs = asList(new Song("first"), new Song("second"));
+    private List<Song> songs = new ArrayList<>();
     private MockMvc mockMvc;
     private SongService service;
+    
+    public SongControllerTest() {
+        Song song = new Song("first");
+        song.setId(1L);
+        songs.add(song);
+        
+        song = new Song("second");
+        song.setId(2L);
+        songs.add(song);
+    }
     
     @Before
     public void setup() {
@@ -36,7 +46,9 @@ public class SongControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].title", is("first")))
-                .andExpect(jsonPath("$[1].title", is("second")));
+                .andExpect(jsonPath("$[0].id", is(1)))
+                .andExpect(jsonPath("$[1].title", is("second")))
+                .andExpect(jsonPath("$[1].id", is(2)));
         
         verify(service, atLeastOnce()).list();
     }
@@ -48,7 +60,8 @@ public class SongControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/songs").param("query", "first"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(1)))
-                .andExpect(jsonPath("$[0].title", is("first")));
+                .andExpect(jsonPath("$[0].title", is("first")))
+                .andExpect(jsonPath("$[0].id", is(1)));
         
         verify(service, atLeastOnce()).filter("first");
     }

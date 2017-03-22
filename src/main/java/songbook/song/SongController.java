@@ -24,14 +24,17 @@ public class SongController {
     public List<SongDto> list(@RequestParam(value = "query", required = false) String query) {
         List<Song> songs = (query == null) ? service.list() : service.filter(query);
         
-        return songs.stream().map(song -> new SongDto(song.getTitle())).collect(toList());
+        return songs.stream().map(song -> new SongDto(song.getTitle(), song.getId())).collect(toList());
     }
     
     static class SongDto {
         public final String title;
         
-        public SongDto(String title) {
+        public final Long id;
+        
+        public SongDto(String title, Long id) {
             this.title = title;
+            this.id = id;
         }
     }
     
