@@ -17,7 +17,11 @@ const SongList = ({songs, selectedSongId, onSongClick}) => {
         </a>
     ));
 
-    return <ListGroup>{items}</ListGroup>
+    return (
+        <ListGroup style={{height: '80vh', overflowY: 'auto'}}>
+            {items}
+        </ListGroup>
+    )
 };
 
 export default SongList;
