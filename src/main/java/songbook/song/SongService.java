@@ -19,8 +19,9 @@ public class SongService {
         return repository.findAll();
     }
     
+    // there seems to be no other way than adding '%'-s here
     public List<Song> filter(String query) {
-        return repository.findByTitleIgnoreCaseContaining(query);
+        return repository.findByTitleOrTextContaining("%" + query + "%");
     }
     
     public Optional<Song> findById(long id) {
