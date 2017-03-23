@@ -9,6 +9,7 @@ import {
     changeView,
     fetchAllSongs,
     fetchSongsFiltered,
+    setSelectedSong,
     fetchAndDisplaySongWithLyrics,
     searchInputChanged
 } from './actions';
@@ -26,7 +27,10 @@ const mapDispatchToProps = (dispatch) => ({
     changeView: (viewName) => dispatch(changeView(viewName)),
     searchInputChanged: (text) => dispatch(searchInputChanged(text)),
     fetchSongsFiltered: (query) => dispatch(fetchSongsFiltered(query)),
-    fetchAndDisplaySongWithLyrics: (id) => dispatch(fetchAndDisplaySongWithLyrics(id))
+    onSongClick: (id) => {
+        dispatch(setSelectedSong(id));
+        dispatch(fetchAndDisplaySongWithLyrics(id));
+    }
 });
 
 const LiveApp = connect(mapStateToProps, mapDispatchToProps)(App);

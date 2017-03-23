@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import React from 'react';
 
-const Lyrics = ({isPresent, title, text}) => {
-    const content = isPresent ? (
+const Lyrics = ({isPresent, title, text}) => (
+    isPresent ? (
         <div>
             <h1 className="text-center">
                 {title}
@@ -12,15 +11,7 @@ const Lyrics = ({isPresent, title, text}) => {
         </div>
     ) : (
         <div/>
-    );
-    
-    return (
-        <Row>
-            <Col md={6} mdPush={3}>
-                {content}
-            </Col>
-        </Row>
-    );
-};
+    )
+);
 
 export default Lyrics;

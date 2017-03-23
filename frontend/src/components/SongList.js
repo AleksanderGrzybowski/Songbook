@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ListGroup } from 'react-bootstrap';
 
-const SongList = ({songs, fetchAndDisplaySongWithLyrics}) => {
+const SongList = ({songs, selectedSongId, onSongClick}) => {
     if (songs.length === 0) {
         return <h3 className="text-center">No results...</h3>
     }
@@ -10,18 +10,14 @@ const SongList = ({songs, fetchAndDisplaySongWithLyrics}) => {
         <a
             key={song.id}
             style={{cursor: 'pointer'}}
-            className="list-group-item"
-            onClick={() => fetchAndDisplaySongWithLyrics(song.id)}
+            className={'list-group-item ' + (selectedSongId === song.id ? 'active' : '')}
+            onClick={() => onSongClick(song.id)}
         >
             {song.title}
         </a>
     ));
 
-    return (
-        <ListGroup>
-            {items}
-        </ListGroup>
-    )
+    return <ListGroup>{items}</ListGroup>
 };
 
 export default SongList;

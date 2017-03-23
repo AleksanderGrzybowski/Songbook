@@ -21,9 +21,9 @@ class App extends Component {
                     <Col md={3}>
                         <SongList
                             songs={this.props.songList.songs}
+                            selectedSongId={this.props.songList.selectedSongId}
                             requestInProgress={this.props.songList.requestInProgress}
                             onSongClick={this.props.onSongClick}
-                            fetchAndDisplaySongWithLyrics={this.props.fetchAndDisplaySongWithLyrics}
                         />
                     </Col>
                     <Col md={9}>

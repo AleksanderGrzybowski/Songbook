@@ -39,6 +39,8 @@ export const fetchSongsFiltered = (query) => (dispatch) => {
         })
 };
 
+export const setSelectedSong = (id) => ({type: 'SET_SELECTED_SONG', id});
+
 export const searchInputChanged = (text) => (dispatch) => {
     dispatch({type: 'SEARCH_INPUT_CHANGED', text});
     dispatch(fetchSongsFiltered(text));

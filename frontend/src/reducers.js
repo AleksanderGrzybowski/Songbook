@@ -33,13 +33,15 @@ export const searchInput = (state = initialStateSearchInput, action) => {
     }
 };
 
-const initialStateSongList = {requestInProgress: false, songs: []};
+const initialStateSongList = {requestInProgress: false, songs: [], selectedSongId: null};
 export const songList = (state = initialStateSongList, action) => {
     switch (action.type) {
         case 'LOAD_SONGS_REQUEST_STARTED':
             return Object.assign({}, state, {requestInProgress: true});
         case 'LOAD_SONGS':
             return Object.assign({}, state, {requestInProgress: false, songs: action.songs});
+        case 'SET_SELECTED_SONG':
+            return Object.assign({}, state, {selectedSongId: action.id});
         default:
             return state;
     }
