@@ -1,5 +1,6 @@
 package songbook.song;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,6 +14,7 @@ public class Song {
     
     private String title;
     
+    @Column(length = 10000)
     private String text;
     
     @SuppressWarnings("unused")

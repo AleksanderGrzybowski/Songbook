@@ -1,5 +1,10 @@
 import React from 'react';
 
+const textStyle = {
+    fontFamily: 'inherit',
+    fontSize: '14px'
+};
+
 const Lyrics = ({isPresent, title, text}) => (
     isPresent ? (
         <div>
@@ -7,7 +12,7 @@ const Lyrics = ({isPresent, title, text}) => (
                 {title}
             </h1>
 
-            <p>{text}</p>
+            <pre style={textStyle}>{text}</pre>
         </div>
     ) : (
         <div/>
