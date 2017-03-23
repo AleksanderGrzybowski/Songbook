@@ -11,7 +11,7 @@ export const health = (state = initialStateHealth, action) => {
 };
 
 const initialStateView = {
-    currentView: 'search',
+    currentView: 'main',
 };
 
 export const view = (state = initialStateView, action) => {
@@ -45,11 +45,11 @@ export const songList = (state = initialStateSongList, action) => {
     }
 };
 
-const initialStateSongWithLyrics = {title: '', text: ''};
+const initialStateSongWithLyrics = {isPresent: false, title: '', text: ''};
 export const songWithLyrics = (state = initialStateSongWithLyrics, action) => {
     switch (action.type) {
         case 'LOAD_SONG_WITH_LYRICS':
-            return action.song;
+            return Object.assign({}, {title: action.song.title, text: action.song.text, isPresent: true});
         default:
             return state;
     }

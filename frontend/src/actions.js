@@ -47,11 +47,7 @@ export const searchInputChanged = (text) => (dispatch) => {
 const loadSongWithLyrics = (data) => ({type: 'LOAD_SONG_WITH_LYRICS', song: data});
 export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
     axios.get(`${backendUrl}/songs/${id}`)
-        .then(({data}) => {
-            dispatch(loadSongWithLyrics(data));
-            dispatch(changeView('lyrics'));
-
-        })
+        .then(({data}) => dispatch(loadSongWithLyrics(data)))
         .catch(err => {
             console.log(err);
             dispatch(backendNotHealthy());

@@ -7,18 +7,18 @@ import Lyrics from './components/Lyrics';
 
 class App extends Component {
     render() {
-        const searchView = (
+        const mainView = (
             <div>
                 <Row>
                     <Col md={6} mdPush={3}>
-                        <SearchInput 
+                        <SearchInput
                             text={this.props.searchInput}
                             inputChanged={this.props.searchInputChanged}
                             fetchSongsFiltered={this.props.fetchSongsFiltered}/>
                     </Col>
                 </Row>
                 <Row>
-                    <Col md={6} mdPush={3}>
+                    <Col md={3}>
                         <SongList
                             songs={this.props.songList.songs}
                             requestInProgress={this.props.songList.requestInProgress}
@@ -26,26 +26,23 @@ class App extends Component {
                             fetchAndDisplaySongWithLyrics={this.props.fetchAndDisplaySongWithLyrics}
                         />
                     </Col>
+                    <Col md={9}>
+                        <Lyrics
+                            isPresent={this.props.songWithLyrics.isPresent}
+                            title={this.props.songWithLyrics.title}
+                            text={this.props.songWithLyrics.text}
+                        />
+                    </Col>
                 </Row>
             </div>
-        );
-
-        const lyricsView = (
-            <Lyrics
-                title={this.props.songWithLyrics.title}
-                text={this.props.songWithLyrics.text}
-                goBack={() => this.props.changeView('search')}
-            />
         );
 
         let component;
 
         if (!this.props.health.healthy) {
             component = <ErrorPage/>;
-        } else if (this.props.view.currentView === 'search') {
-            component = searchView;
-        } else if (this.props.view.currentView === 'lyrics') {
-            component = lyricsView;
+        } else if (this.props.view.currentView === 'main') {
+            component = mainView;
         } else {
             component = <div>Not yet implemented</div>
         }
