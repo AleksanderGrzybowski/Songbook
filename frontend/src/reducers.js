@@ -56,3 +56,19 @@ export const songWithLyrics = (state = initialStateSongWithLyrics, action) => {
             return state;
     }
 };
+
+const initialStateNewSongModal = {visible: false, title: '', text: ''};
+export const newSongModal = (state = initialStateNewSongModal, action) => {
+    switch (action.type) {
+        case 'NEW_SONG_MODAL_OPEN':
+            return Object.assign({}, state, {visible: true});
+        case 'NEW_SONG_MODAL_CLOSE':
+            return Object.assign({}, state, {visible: false, title: '', text: ''});
+        case 'NEW_SONG_TITLE_CHANGED':
+            return Object.assign({}, state, {title: action.title});
+        case 'NEW_SONG_TEXT_CHANGED':
+            return Object.assign({}, state, {text: action.text});
+        default:
+            return state;
+    }
+};

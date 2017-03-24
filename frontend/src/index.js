@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { connect, Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { health, view, searchInput, songList, songWithLyrics } from './reducers';
+import { health, view, searchInput, songList, songWithLyrics ,newSongModal} from './reducers';
 import {
     healthCheck,
     changeView,
@@ -11,14 +11,20 @@ import {
     fetchSongsFiltered,
     setSelectedSong,
     fetchAndDisplaySongWithLyrics,
-    searchInputChanged
+    searchInputChanged,
+    newSongModalOpen, 
+    newSongModalClose,
+    newSongTextChanged,
+    newSongTitleChanged,
+    newSongSave
+    
 } from './actions';
 import App from './App';
 import createLogger from 'redux-logger';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const store = createStore(
-    combineReducers({health, view, searchInput, songList, songWithLyrics}),
+    combineReducers({health, view, searchInput, songList, songWithLyrics, newSongModal}),
     applyMiddleware(thunk, createLogger({collapsed: true}))
 );
 
@@ -30,7 +36,14 @@ const mapDispatchToProps = (dispatch) => ({
     onSongClick: (id) => {
         dispatch(setSelectedSong(id));
         dispatch(fetchAndDisplaySongWithLyrics(id));
-    }
+    },
+    newSongSave: (title, text) => dispatch(newSongSave(title, text)),
+    newSongModalOpen: () => dispatch(newSongModalOpen()),
+    newSongModalClose: () => dispatch(newSongModalClose()),
+    newSongTitleChanged: (title) => dispatch(newSongTitleChanged(title)),
+    newSongTextChanged: (text) => dispatch(newSongTextChanged(text))
+    
+    
 });
 
 const LiveApp = connect(mapStateToProps, mapDispatchToProps)(App);

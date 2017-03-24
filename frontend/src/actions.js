@@ -55,3 +55,20 @@ export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
             dispatch(backendNotHealthy());
         })
 };
+
+export const newSongModalOpen = () => ({type: 'NEW_SONG_MODAL_OPEN'});
+export const newSongModalClose = () => ({type: 'NEW_SONG_MODAL_CLOSE'});
+export const newSongTitleChanged = (title) => ({type: 'NEW_SONG_TITLE_CHANGED', title});
+export const newSongTextChanged = (text) => ({type: 'NEW_SONG_TEXT_CHANGED', text});
+
+export const newSongSave = () => (dispatch, getState) => {
+    axios.get(`${backendUrl}/health`, {timeout: 10000})
+        .then(() => {
+            dispatch(newSongModalClose());
+            dispatch(fetchAllSongs());
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(backendNotHealthy());
+        });
+};

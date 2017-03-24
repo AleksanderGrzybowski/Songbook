@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import ErrorPage from './components/ErrorPage';
-import { Row, Col, Grid } from 'react-bootstrap';
+import { Row, Col, Grid, Modal, Button, ButtonToolbar } from 'react-bootstrap';
 import SongList from './components/SongList';
 import SearchInput from './components/SearchInput';
 import Lyrics from './components/Lyrics';
-
+import NewSongModal from './components/NewSongModal';
 class App extends Component {
     render() {
         const mainView = (
@@ -19,6 +19,10 @@ class App extends Component {
                 </Row>
                 <Row>
                     <Col md={3}>
+                        <Button style={{marginBottom: '5px'}} bsStyle="primary"
+                                onClick={this.props.newSongModalOpen}>
+                            <span className="glyphicon glyphicon-plus"/> New song
+                        </Button>
                         <SongList
                             songs={this.props.songList.songs}
                             selectedSongId={this.props.songList.selectedSongId}
@@ -37,6 +41,17 @@ class App extends Component {
             </div>
         );
 
+        const modal = this.props.newSongModal.visible ? (
+            <NewSongModal
+                title={this.props.newSongModal.title}
+                text={this.props.newSongModal.text}
+                onTextChange={this.props.newSongTextChanged}
+                onTitleChange={this.props.newSongTitleChanged}
+                onSave={this.props.newSongSave}
+                onClose={this.props.newSongModalClose}
+            />
+        ) : null;
+
         let component;
 
         if (!this.props.health.healthy) {
@@ -50,6 +65,7 @@ class App extends Component {
         return (
             <Grid>
                 {component}
+                {modal}
             </Grid>
         )
     }
