@@ -44,6 +44,16 @@ public class SongController {
         }
     }
     
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    public ResponseEntity<SongWithLyricsDto> list(@RequestBody SongWithLyricsDto dto) {
+        Song created = service.create(dto.title, dto.text);
+        
+        return new ResponseEntity<>(
+                new SongWithLyricsDto(created.getId(), created.getTitle(), created.getText()),
+                HttpStatus.CREATED
+        );
+    }
+    
     static class SongDto {
         public final String title;
         
@@ -62,6 +72,11 @@ public class SongController {
         public SongWithLyricsDto(Long id, String title, String text) {
             super(title, id);
             this.text = text;
+        }
+        
+        public SongWithLyricsDto() {
+            super(null, null);
+            this.text = null;
         }
     }
     

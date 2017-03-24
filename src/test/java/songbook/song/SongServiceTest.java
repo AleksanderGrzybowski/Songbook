@@ -56,4 +56,17 @@ public class SongServiceTest {
         assertThat(result).isEqualTo(Optional.of(songs.get(0)));
         verify(repository, atLeastOnce()).findById(1L);
     }
+    
+    @Test
+    public void should_create_and_save_new_song() {
+        Song newSong = new Song(null, "new", "new_text");
+        when(repository.save(newSong)).thenReturn(newSong);
+        
+        Song saved = service.create("new", "new_text");
+        
+        assertThat(saved.getTitle()).isEqualTo("new");
+        assertThat(saved.getText()).isEqualTo("new_text");
+        
+        verify(repository, atLeastOnce()).save(newSong);
+    }
 }

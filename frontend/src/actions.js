@@ -62,7 +62,9 @@ export const newSongTitleChanged = (title) => ({type: 'NEW_SONG_TITLE_CHANGED', 
 export const newSongTextChanged = (text) => ({type: 'NEW_SONG_TEXT_CHANGED', text});
 
 export const newSongSave = () => (dispatch, getState) => {
-    axios.get(`${backendUrl}/health`, {timeout: 10000})
+    const {title, text} = getState().newSongModal;
+    
+    axios.post(`${backendUrl}/songs`, {title, text})
         .then(() => {
             dispatch(newSongModalClose());
             dispatch(fetchAllSongs());

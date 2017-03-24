@@ -29,4 +29,5 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     compile 'commons-io:commons-io:2.5'
+    testCompile 'com.google.code.gson:gson:2.8.0'
 }

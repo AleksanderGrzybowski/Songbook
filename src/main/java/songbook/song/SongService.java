@@ -27,4 +27,8 @@ public class SongService {
     public Optional<Song> findById(long id) {
         return repository.findById(id);
     }
+    
+    public Song create(String title, String text) {
+        return repository.save(new Song(null, title, text));
+    }
 }

@@ -50,4 +50,21 @@ public class Song {
     public void setText(String text) {
         this.text = text;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Song song = (Song) o;
+        
+        return title.equals(song.title) && text.equals(song.text);
+    }
+    
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + text.hashCode();
+        return result;
+    }
 }
