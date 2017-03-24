@@ -39,12 +39,12 @@ public class SongServiceTest {
     
     @Test
     public void should_find_songs_by_part_of_title() {
-        when(repository.findByTitleOrTextContaining("first")).thenReturn(singletonList(songs.get(0)));
+        when(repository.findByTitleOrTextContaining("%first%")).thenReturn(singletonList(songs.get(0)));
         
         List<Song> result = service.filter("first");
         
         assertThat(result).isEqualTo(singletonList(songs.get(0)));
-        verify(repository, atLeastOnce()).findByTitleOrTextContaining("first");
+        verify(repository, atLeastOnce()).findByTitleOrTextContaining("%first%");
     }
     
     @Test
