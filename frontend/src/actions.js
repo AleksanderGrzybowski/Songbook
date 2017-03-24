@@ -65,9 +65,11 @@ export const newSongSave = () => (dispatch, getState) => {
     const {title, text} = getState().newSongModal;
     
     axios.post(`${backendUrl}/songs`, {title, text})
-        .then(() => {
+        .then(({data}) => {
             dispatch(newSongModalClose());
             dispatch(fetchAllSongs());
+            dispatch(setSelectedSong(data.id));
+            dispatch(fetchAndDisplaySongWithLyrics(data.id));
         })
         .catch(err => {
             console.log(err);
