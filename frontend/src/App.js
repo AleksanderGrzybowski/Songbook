@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
 import ErrorPage from './components/ErrorPage';
-import { Row, Col, Grid, Modal, Button, ButtonToolbar } from 'react-bootstrap';
+import { Row, Col, Grid, Button } from 'react-bootstrap';
 import SongList from './components/SongList';
 import SearchInput from './components/SearchInput';
 import Lyrics from './components/Lyrics';
 import NewSongModal from './components/NewSongModal';
+import DeleteSongModal from './components/DeleteSongModal';
+import LyricsControls from './components/LyricsControls';
+
 class App extends Component {
     render() {
+        const lyricsControls = <LyricsControls
+            onEdit={() => console.log('edit')}
+            onDelete={this.props.deleteSongModalOpen}
+        />;
+
         const mainView = (
             <div>
                 <Row>
@@ -32,6 +40,7 @@ class App extends Component {
                     </Col>
                     <Col md={9}>
                         <Lyrics
+                            controls={lyricsControls}
                             isPresent={this.props.songWithLyrics.isPresent}
                             title={this.props.songWithLyrics.title}
                             text={this.props.songWithLyrics.text}
@@ -41,7 +50,7 @@ class App extends Component {
             </div>
         );
 
-        const modal = this.props.newSongModal.visible ? (
+        const createSongModal = this.props.newSongModal.visible ? (
             <NewSongModal
                 title={this.props.newSongModal.title}
                 text={this.props.newSongModal.text}
@@ -49,6 +58,13 @@ class App extends Component {
                 onTitleChange={this.props.newSongTitleChanged}
                 onSave={this.props.newSongSave}
                 onClose={this.props.newSongModalClose}
+            />
+        ) : null;
+
+        const deleteSongModal = this.props.deleteSongModal.visible ? (
+            <DeleteSongModal
+                onDelete={this.props.deleteSong}
+                onClose={this.props.deleteSongModalClose}
             />
         ) : null;
 
@@ -65,7 +81,8 @@ class App extends Component {
         return (
             <Grid>
                 {component}
-                {modal}
+                {createSongModal}
+                {deleteSongModal}
             </Grid>
         )
     }

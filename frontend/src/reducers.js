@@ -52,6 +52,8 @@ export const songWithLyrics = (state = initialStateSongWithLyrics, action) => {
     switch (action.type) {
         case 'LOAD_SONG_WITH_LYRICS':
             return Object.assign({}, {title: action.song.title, text: action.song.text, isPresent: true});
+        case 'EMPTY_LYRICS':
+            return initialStateSongWithLyrics;
         default:
             return state;
     }
@@ -68,6 +70,18 @@ export const newSongModal = (state = initialStateNewSongModal, action) => {
             return Object.assign({}, state, {title: action.title});
         case 'NEW_SONG_TEXT_CHANGED':
             return Object.assign({}, state, {text: action.text});
+        default:
+            return state;
+    }
+};
+
+const initialStateDeleteSongModal = {visible: false, id: 0};
+export const deleteSongModal = (state = initialStateDeleteSongModal, action) => {
+    switch (action.type) {
+        case 'DELETE_SONG_MODAL_OPEN':
+            return Object.assign({}, state, {visible: true, id: action.id});
+        case 'DELETE_SONG_MODAL_CLOSE':
+            return Object.assign({}, state, {visible: false, id: 0});
         default:
             return state;
     }

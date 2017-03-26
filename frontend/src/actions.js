@@ -47,6 +47,7 @@ export const searchInputChanged = (text) => (dispatch) => {
 };
 
 const loadSongWithLyrics = (data) => ({type: 'LOAD_SONG_WITH_LYRICS', song: data});
+const emptyLyrics = (data) => ({type: 'EMPTY_LYRICS'});
 export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
     axios.get(`${backendUrl}/songs/${id}`)
         .then(({data}) => dispatch(loadSongWithLyrics(data)))
@@ -70,6 +71,24 @@ export const newSongSave = () => (dispatch, getState) => {
             dispatch(fetchAllSongs());
             dispatch(setSelectedSong(data.id));
             dispatch(fetchAndDisplaySongWithLyrics(data.id));
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(backendNotHealthy());
+        });
+};
+
+export const deleteSongModalOpen = () => ({type: 'DELETE_SONG_MODAL_OPEN'});
+export const deleteSongModalClose = () => ({type: 'DELETE_SONG_MODAL_CLOSE'});
+
+export const deleteSong = () => (dispatch, getState) => {
+    const {id} = getState().deleteSongModal;
+
+    axios.delete(`${backendUrl}/songs/${id}`)
+        .then(() => {
+            dispatch(deleteSongModalClose());
+            dispatch(fetchAllSongs());
+            dispatch(emptyLyrics());
         })
         .catch(err => {
             console.log(err);
