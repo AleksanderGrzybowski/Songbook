@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Row, Col, Grid, FormGroup, FormControl } from 'react-bootstrap';
+import React from 'react';
+import { FormGroup, FormControl } from 'react-bootstrap';
 
 const SearchInput = ({text, inputChanged}) => (
     <h1 className="text-center">

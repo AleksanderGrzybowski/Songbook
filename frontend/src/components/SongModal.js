@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { Row, Col, Grid, Modal, Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Modal, Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
 
-const NewSongModal = ({title, text, onTitleChange, onTextChange, onClose, onSave}) => {
+const SongModal = ({mode, title, text, onTitleChange, onTextChange, onClose, onSave}) => {
     const isFormValid = title.length !== 0 && text.length !== 0;
+    const headerText = (mode === 'create') ? 'Create new song' : 'Update song';
 
     return (
         <Modal show={true} onHide={onClose} backdrop="static">
             <Modal.Header closeButton>
-                <Modal.Title>Add new song</Modal.Title>
+                <Modal.Title>{headerText}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <form>
@@ -43,4 +44,4 @@ const NewSongModal = ({title, text, onTitleChange, onTextChange, onClose, onSave
     )
 };
 
-export default NewSongModal;
+export default SongModal;

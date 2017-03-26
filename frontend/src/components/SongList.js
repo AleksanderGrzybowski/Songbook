@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ListGroup } from 'react-bootstrap';
 
 const SongList = ({songs, selectedSongId, onSongClick}) => {

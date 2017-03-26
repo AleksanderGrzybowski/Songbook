@@ -4,14 +4,19 @@ import { Row, Col, Grid, Button } from 'react-bootstrap';
 import SongList from './components/SongList';
 import SearchInput from './components/SearchInput';
 import Lyrics from './components/Lyrics';
-import NewSongModal from './components/NewSongModal';
+import SongModal from './components/SongModal';
 import DeleteSongModal from './components/DeleteSongModal';
 import LyricsControls from './components/LyricsControls';
 
 class App extends Component {
     render() {
         const lyricsControls = <LyricsControls
-            onEdit={() => console.log('edit')}
+            onEdit={() => this.props.songModalOpen(
+                'update',
+                this.props.songList.selectedSongId,
+                this.props.songWithLyrics.title,
+                this.props.songWithLyrics.text,
+            )}
             onDelete={this.props.deleteSongModalOpen}
         />;
 
@@ -28,7 +33,7 @@ class App extends Component {
                 <Row>
                     <Col md={3}>
                         <Button style={{marginBottom: '5px'}} bsStyle="primary"
-                                onClick={this.props.newSongModalOpen}>
+                                onClick={() => this.props.songModalOpen('create')}>
                             <span className="glyphicon glyphicon-plus"/> New song
                         </Button>
                         <SongList
@@ -50,14 +55,15 @@ class App extends Component {
             </div>
         );
 
-        const createSongModal = this.props.newSongModal.visible ? (
-            <NewSongModal
-                title={this.props.newSongModal.title}
-                text={this.props.newSongModal.text}
-                onTextChange={this.props.newSongTextChanged}
-                onTitleChange={this.props.newSongTitleChanged}
-                onSave={this.props.newSongSave}
-                onClose={this.props.newSongModalClose}
+        const createSongModal = this.props.songModal.visible ? (
+            <SongModal
+                mode={this.props.songModal.mode}
+                title={this.props.songModal.title}
+                text={this.props.songModal.text}
+                onTextChange={this.props.songModalTextChanged}
+                onTitleChange={this.props.songModalTitleChanged}
+                onSave={this.props.songSave}
+                onClose={this.props.songModalClose}
             />
         ) : null;
 

@@ -58,25 +58,32 @@ export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
         })
 };
 
-export const newSongModalOpen = () => ({type: 'NEW_SONG_MODAL_OPEN'});
-export const newSongModalClose = () => ({type: 'NEW_SONG_MODAL_CLOSE'});
-export const newSongTitleChanged = (title) => ({type: 'NEW_SONG_TITLE_CHANGED', title});
-export const newSongTextChanged = (text) => ({type: 'NEW_SONG_TEXT_CHANGED', text});
+export const songModalOpen = (mode, id, title, text) => ({type: 'SONG_MODAL_OPEN', mode, id, title, text});
+export const songModalClose = () => ({type: 'SONG_MODAL_CLOSE'});
+export const songModalTitleChanged = (title) => ({type: 'SONG_MODAL_TITLE_CHANGED', title});
+export const songModalTextChanged = (text) => ({type: 'SONG_MODAL_TEXT_CHANGED', text});
 
-export const newSongSave = () => (dispatch, getState) => {
-    const {title, text} = getState().newSongModal;
+export const songSave = () => (dispatch, getState) => {
+    const {id, title, text, mode} = getState().songModal;
 
-    axios.post(`${backendUrl}/songs`, {title, text})
-        .then(({data}) => {
-            dispatch(newSongModalClose());
-            dispatch(fetchAllSongs());
-            dispatch(setSelectedSong(data.id));
-            dispatch(fetchAndDisplaySongWithLyrics(data.id));
-        })
-        .catch(err => {
-            console.log(err);
-            dispatch(backendNotHealthy());
-        });
+    let promise;
+    if (mode === 'create') {
+        promise = axios.post(`${backendUrl}/songs`, {title, text});
+    } else if (mode === 'update') {
+        promise = axios.put(`${backendUrl}/songs/${id}`, {title, text});
+    } else {
+        throw new Error('Invalid mode');
+    }
+
+    promise.then(({data}) => {
+        dispatch(songModalClose());
+        dispatch(fetchAllSongs());
+        dispatch(setSelectedSong(data.id));
+        dispatch(fetchAndDisplaySongWithLyrics(data.id));
+    }).catch(err => {
+        console.log(err);
+        dispatch(backendNotHealthy());
+    });
 };
 
 export const deleteSongModalOpen = () => ({type: 'DELETE_SONG_MODAL_OPEN'});

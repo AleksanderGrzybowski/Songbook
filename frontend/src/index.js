@@ -9,7 +9,7 @@ import {
     searchInput,
     songList,
     songWithLyrics,
-    newSongModal,
+    songModal,
     deleteSongModal
 } from './reducers';
 import {
@@ -20,13 +20,14 @@ import {
     setSelectedSong,
     fetchAndDisplaySongWithLyrics,
     searchInputChanged,
-    newSongModalOpen,
-    newSongModalClose,
-    newSongTextChanged,
-    newSongTitleChanged,
-    newSongSave,
+    songModalOpen,
+    songModalClose,
+    songModalTextChanged,
+    songModalTitleChanged,
+    songSave,
     deleteSongModalOpen,
-    deleteSong, deleteSongModalClose,
+    deleteSong,
+    deleteSongModalClose,
 
 } from './actions';
 import App from './App';
@@ -34,7 +35,7 @@ import createLogger from 'redux-logger';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const store = createStore(
-    combineReducers({health, view, searchInput, songList, songWithLyrics, newSongModal, deleteSongModal}),
+    combineReducers({health, view, searchInput, songList, songWithLyrics, songModal, deleteSongModal}),
     applyMiddleware(thunk, createLogger({collapsed: true}))
 );
 
@@ -47,11 +48,11 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(setSelectedSong(id));
         dispatch(fetchAndDisplaySongWithLyrics(id));
     },
-    newSongSave: (title, text) => dispatch(newSongSave(title, text)),
-    newSongModalOpen: () => dispatch(newSongModalOpen()),
-    newSongModalClose: () => dispatch(newSongModalClose()),
-    newSongTitleChanged: (title) => dispatch(newSongTitleChanged(title)),
-    newSongTextChanged: (text) => dispatch(newSongTextChanged(text)),
+    songSave: (title, text) => dispatch(songSave(title, text)),
+    songModalOpen: (mode, id, title, text) => dispatch(songModalOpen(mode, id, title, text)),
+    songModalClose: () => dispatch(songModalClose()),
+    songModalTitleChanged: (title) => dispatch(songModalTitleChanged(title)),
+    songModalTextChanged: (text) => dispatch(songModalTextChanged(text)),
     deleteSong: (id) => dispatch(deleteSong(id)),
     deleteSongModalOpen: () => dispatch(deleteSongModalOpen()),
     deleteSongModalClose: () => dispatch(deleteSongModalClose())
