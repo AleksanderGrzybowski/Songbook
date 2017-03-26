@@ -45,7 +45,7 @@ public class SongController {
     }
     
     @RequestMapping(value = "", method = RequestMethod.POST)
-    public ResponseEntity<SongWithLyricsDto> list(@RequestBody SongWithLyricsDto dto) {
+    public ResponseEntity<SongWithLyricsDto> create(@RequestBody SongWithLyricsDto dto) {
         Song created = service.create(dto.title, dto.text);
         
         return new ResponseEntity<>(
