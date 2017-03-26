@@ -65,6 +65,7 @@ class App extends Component {
             <DeleteSongModal
                 onDelete={this.props.deleteSong}
                 onClose={this.props.deleteSongModalClose}
+                id={this.props.songList.selectedSongId}
             />
         ) : null;
 

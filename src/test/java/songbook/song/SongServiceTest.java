@@ -69,4 +69,19 @@ public class SongServiceTest {
         
         verify(repository, atLeastOnce()).save(newSong);
     }
+    
+    @Test
+    public void should_delete_song() {
+        Song toDelete = new Song(null, "title", "text");
+        when(repository.findById(1L)).thenReturn(Optional.of(toDelete));
+        service.delete(1L);
+        
+        verify(repository, atLeastOnce()).delete(1L);
+    }
+    
+    @Test(expected = SongNotFoundException.class)
+    public void should_fail_to_delete_nonexistent_song() {
+        when(repository.findById(1L)).thenReturn(Optional.empty());
+        service.delete(1L);
+    }
 }

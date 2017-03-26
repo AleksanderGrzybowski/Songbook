@@ -54,6 +54,16 @@ public class SongController {
         );
     }
     
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<SongWithLyricsDto> delete(@PathVariable("id") Long id) {
+        try {
+            service.delete(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (SongNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
     static class SongDto {
         public final String title;
         

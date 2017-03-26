@@ -31,4 +31,13 @@ public class SongService {
     public Song create(String title, String text) {
         return repository.save(new Song(null, title, text));
     }
+    
+    public void delete(long id) {
+        Optional<Song> toDelete = repository.findById(id);
+        if (toDelete.isPresent()) {
+            repository.delete(id);
+        } else {
+            throw new SongNotFoundException();
+        }
+    }
 }

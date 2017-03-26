@@ -42,6 +42,8 @@ export const songList = (state = initialStateSongList, action) => {
             return Object.assign({}, state, {requestInProgress: false, songs: action.songs});
         case 'SET_SELECTED_SONG':
             return Object.assign({}, state, {selectedSongId: action.id});
+        case 'UNSET_SELECTED_SONG':
+            return Object.assign({}, state, {selectedSongId: null});
         default:
             return state;
     }

@@ -52,7 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
     newSongModalClose: () => dispatch(newSongModalClose()),
     newSongTitleChanged: (title) => dispatch(newSongTitleChanged(title)),
     newSongTextChanged: (text) => dispatch(newSongTextChanged(text)),
-    deleteSong: () => dispatch(deleteSong()),
+    deleteSong: (id) => dispatch(deleteSong(id)),
     deleteSongModalOpen: () => dispatch(deleteSongModalOpen()),
     deleteSongModalClose: () => dispatch(deleteSongModalClose())
 });

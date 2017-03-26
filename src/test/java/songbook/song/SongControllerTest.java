@@ -15,6 +15,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -106,5 +107,22 @@ public class SongControllerTest {
                 .andExpect(jsonPath("$.text", is("new_text")));
         
         verify(service, atLeastOnce()).create("new", "new_text");
+    }
+    
+    @Test
+    public void should_delete_existing_song() throws Exception {
+        mockMvc.perform(delete("/songs/1"))
+                .andExpect(status().isNoContent());
+        
+        verify(service, atLeastOnce()).delete(1L);
+    }
+    
+    @Test
+    public void should_refuse_to_delete_nonexistent_song() throws Exception {
+        doThrow(new SongNotFoundException()).when(service).delete(1L);
+        mockMvc.perform(delete("/songs/1"))
+                .andExpect(status().isNotFound());
+        
+        verify(service, atLeastOnce()).delete(1L);
     }
 }

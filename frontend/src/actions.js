@@ -40,6 +40,7 @@ export const fetchSongsFiltered = (query) => (dispatch) => {
 };
 
 export const setSelectedSong = (id) => ({type: 'SET_SELECTED_SONG', id});
+export const unsetSelectedSong = () => ({type: 'UNSET_SELECTED_SONG'});
 
 export const searchInputChanged = (text) => (dispatch) => {
     dispatch({type: 'SEARCH_INPUT_CHANGED', text});
@@ -64,7 +65,7 @@ export const newSongTextChanged = (text) => ({type: 'NEW_SONG_TEXT_CHANGED', tex
 
 export const newSongSave = () => (dispatch, getState) => {
     const {title, text} = getState().newSongModal;
-    
+
     axios.post(`${backendUrl}/songs`, {title, text})
         .then(({data}) => {
             dispatch(newSongModalClose());
@@ -81,14 +82,13 @@ export const newSongSave = () => (dispatch, getState) => {
 export const deleteSongModalOpen = () => ({type: 'DELETE_SONG_MODAL_OPEN'});
 export const deleteSongModalClose = () => ({type: 'DELETE_SONG_MODAL_CLOSE'});
 
-export const deleteSong = () => (dispatch, getState) => {
-    const {id} = getState().deleteSongModal;
-
+export const deleteSong = (id) => (dispatch) => {
     axios.delete(`${backendUrl}/songs/${id}`)
         .then(() => {
             dispatch(deleteSongModalClose());
             dispatch(fetchAllSongs());
             dispatch(emptyLyrics());
+            dispatch(unsetSelectedSong());
         })
         .catch(err => {
             console.log(err);
