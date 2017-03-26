@@ -71,6 +71,27 @@ public class SongServiceTest {
     }
     
     @Test
+    public void should_update_existing_song() {
+        Song newSong = new Song(null, "old", "old_text");
+        when(repository.findById(1L)).thenReturn(Optional.of(newSong));
+        when(repository.save(newSong)).thenReturn(newSong);
+        
+        Song updated = service.update(1L, "new", "new_text");
+        
+        assertThat(updated.getTitle()).isEqualTo("new");
+        assertThat(updated.getText()).isEqualTo("new_text");
+        
+        verify(repository, atLeastOnce()).save(newSong);
+    }
+    
+    @Test(expected = SongNotFoundException.class)
+    public void should_refuse_to_update_nonexistent_song() {
+        when(repository.findById(1L)).thenReturn(Optional.empty());
+    
+        service.update(1L, "new", "new_text");
+    }
+    
+    @Test
     public void should_delete_song() {
         Song toDelete = new Song(null, "title", "text");
         when(repository.findById(1L)).thenReturn(Optional.of(toDelete));

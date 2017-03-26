@@ -54,6 +54,19 @@ public class SongController {
         );
     }
     
+    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    public ResponseEntity<SongWithLyricsDto> update(@PathVariable("id") Long id, @RequestBody SongWithLyricsDto dto) {
+        try {
+            Song updated = service.update(id, dto.title, dto.text);
+            return new ResponseEntity<>(
+                    new SongWithLyricsDto(updated.getId(), updated.getTitle(), updated.getText()),
+                    HttpStatus.OK
+            );
+        } catch (SongNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<SongWithLyricsDto> delete(@PathVariable("id") Long id) {
         try {

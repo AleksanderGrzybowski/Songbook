@@ -15,9 +15,7 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
@@ -107,6 +105,39 @@ public class SongControllerTest {
                 .andExpect(jsonPath("$.text", is("new_text")));
         
         verify(service, atLeastOnce()).create("new", "new_text");
+    }
+    
+    @Test
+    public void should_update_existing_song() throws Exception {
+        Song newSong = new Song(1L, "new", "new_text");
+        when(service.update(1L, "new", "new_text")).thenReturn(newSong);
+        
+        SongWithLyricsDto dto = new SongWithLyricsDto(null, "new", "new_text");
+        mockMvc.perform(
+                put("/songs/1")
+                        .content(gson.toJson(dto))
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title", is("new")))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.text", is("new_text")));
+        
+        verify(service, atLeastOnce()).update(1L, "new", "new_text");
+    }
+    
+    @Test
+    public void should_refuse_to_update_nonexistent_song() throws Exception {
+        doThrow(new SongNotFoundException()).when(service).update(1L, "new", "new_text");
+        SongWithLyricsDto dto = new SongWithLyricsDto(1L, "new", "new_text");
+        mockMvc.perform(
+                put("/songs/1")
+                        .content(gson.toJson(dto))
+                        .contentType(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isNotFound());
+        
+        verify(service, atLeastOnce()).update(1L, "new", "new_text");
     }
     
     @Test

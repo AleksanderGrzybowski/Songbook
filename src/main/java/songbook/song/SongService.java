@@ -40,4 +40,17 @@ public class SongService {
             throw new SongNotFoundException();
         }
     }
+    
+    public Song update(long id, String newTitle, String newText) {
+        Optional<Song> optionalSong = repository.findById(id);
+        
+        if (optionalSong.isPresent()) {
+            Song song = optionalSong.get();
+            song.setTitle(newTitle);
+            song.setText(newText);
+            return repository.save(song);
+        } else {
+            throw new SongNotFoundException();
+        }
+    }
 }
