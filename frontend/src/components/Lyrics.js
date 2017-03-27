@@ -19,7 +19,13 @@ const Lyrics = ({controls, isPresent, title, text}) => {
         </div>
     );
 
-    return isPresent ? main : <div/>;
+    const empty = (
+        <div>
+            <h3 className="text-center">Pick a song from the left, or search...</h3>
+        </div>
+    );
+
+    return isPresent ? main : empty;
 };
 
 export default Lyrics;
