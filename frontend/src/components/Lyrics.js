@@ -2,7 +2,8 @@ import React from 'react';
 
 const textStyle = {
     fontFamily: 'inherit',
-    fontSize: '14px'
+    fontSize: '16px',
+    whiteSpace: 'pre'
 };
 
 const Lyrics = ({controls, isPresent, title, text}) => {
@@ -15,7 +16,7 @@ const Lyrics = ({controls, isPresent, title, text}) => {
                 </div>
             </h1>
 
-            <pre style={textStyle}>{text}</pre>
+            <p style={textStyle}>{text}</p>
         </div>
     );
 
