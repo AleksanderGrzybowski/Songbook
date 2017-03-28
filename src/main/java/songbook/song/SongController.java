@@ -4,6 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import songbook.song.exceptions.SongNotFoundException;
+import songbook.song.exceptions.ValidationException;
+import songbook.song.exceptions.ValidationException.FieldError;
+import songbook.song.dto.SongTitleAndIdDto;
+import songbook.song.dto.SongWithLyricsDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,11 +26,11 @@ public class SongController {
     }
     
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<SongDto> list(@RequestParam(value = "query", required = false) String query) {
+    public List<SongTitleAndIdDto> list(@RequestParam(value = "query", required = false) String query) {
         
         return ((query == null) ? service.list() : service.filter(query))
                 .stream()
-                .map(song -> new SongDto(song.getTitle(), song.getId()))
+                .map(song -> new SongTitleAndIdDto(song.getTitle(), song.getId()))
                 .collect(toList());
     }
     
@@ -77,30 +82,17 @@ public class SongController {
         }
     }
     
-    static class SongDto {
-        public final String title;
-        
-        public final Long id;
-        
-        public SongDto(String title, Long id) {
-            this.title = title;
-            this.id = id;
-        }
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ValidationExceptionDto handleValidationException(ValidationException e) {
+        return new ValidationExceptionDto(e);
     }
     
-    static class SongWithLyricsDto extends SongDto {
-        
-        public final String text;
-        
-        public SongWithLyricsDto(Long id, String title, String text) {
-            super(title, id);
-            this.text = text;
-        }
-        
-        public SongWithLyricsDto() {
-            super(null, null);
-            this.text = null;
+    private static class ValidationExceptionDto {
+        public final List<FieldError> errors;
+    
+        ValidationExceptionDto(ValidationException e) {
+            this.errors = e.errors;
         }
     }
-    
 }

@@ -2,6 +2,8 @@ package songbook.song;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import songbook.song.exceptions.SongNotFoundException;
+import songbook.song.exceptions.ValidationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +31,8 @@ public class SongService {
     }
     
     public Song create(String title, String text) {
+        validateTitleAndText(title, text);
+        
         return repository.save(new Song(null, title, text));
     }
     
@@ -42,6 +46,8 @@ public class SongService {
     }
     
     public Song update(long id, String newTitle, String newText) {
+        validateTitleAndText(newTitle, newText);
+        
         Optional<Song> optionalSong = repository.findById(id);
         
         if (optionalSong.isPresent()) {
@@ -52,5 +58,14 @@ public class SongService {
         } else {
             throw new SongNotFoundException();
         }
+    }
+    
+    private void validateTitleAndText(String title, String text) {
+        ValidationException.builder()
+                .add(title != null && !title.isEmpty() && title.length() <= 100,
+                        "title", "can't be null nor empty, max 100 characters")
+                .add(text != null && !text.isEmpty() && text.length() <= 1000,
+                        "text", "can't be null nor empty, max 1000 characters")
+                .throwIfErrors();
     }
 }

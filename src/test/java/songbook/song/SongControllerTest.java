@@ -5,7 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import songbook.song.SongController.SongWithLyricsDto;
+import songbook.song.dto.SongWithLyricsDto;
+import songbook.song.exceptions.SongNotFoundException;
+import songbook.song.exceptions.ValidationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -92,7 +94,7 @@ public class SongControllerTest {
     public void should_create_valid_song() throws Exception {
         Song newSong = new Song(1L, "new", "new_text");
         when(service.create("new", "new_text")).thenReturn(newSong);
-    
+        
         SongWithLyricsDto dto = new SongWithLyricsDto(null, "new", "new_text");
         mockMvc.perform(
                 post("/songs")
@@ -155,5 +157,22 @@ public class SongControllerTest {
                 .andExpect(status().isNotFound());
         
         verify(service, atLeastOnce()).delete(1L);
+    }
+    
+    @Test
+    public void should_return_BAD_REQUEST_when_validation_exception_is_thrown() throws Exception {
+        when(service.list()).thenThrow(ValidationException.builder()
+                .add("someField1", "some cause 1")
+                .add("someField2", "some cause 2")
+                .build()
+        );
+        
+        mockMvc.perform(get("/songs"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors", hasSize(2)))
+                .andExpect(jsonPath("$.errors[0].field", is("someField1")))
+                .andExpect(jsonPath("$.errors[0].cause", is("some cause 1")))
+                .andExpect(jsonPath("$.errors[1].field", is("someField2")))
+                .andExpect(jsonPath("$.errors[1].cause", is("some cause 2")));
     }
 }

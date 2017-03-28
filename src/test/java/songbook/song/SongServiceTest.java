@@ -2,6 +2,8 @@ package songbook.song;
 
 import org.junit.Before;
 import org.junit.Test;
+import songbook.song.exceptions.SongNotFoundException;
+import songbook.song.exceptions.ValidationException;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +72,36 @@ public class SongServiceTest {
         verify(repository, atLeastOnce()).save(newSong);
     }
     
+    @Test(expected = ValidationException.class)
+    public void should_not_allow_null_title() {
+        service.create(null, "new_text");
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void should_not_allow_empty_title() {
+        service.create("", "new_text");
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void should_not_allow_title_longer_than_100_chars() {
+        service.create(createStringOfLength(101), "new_text");
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void should_not_allow_null_text() {
+        service.create("new", null);
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void should_not_allow_empty_text() {
+        service.create("new", "");
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void should_not_allow_text_longer_than_1000_chars() {
+        service.create("new", createStringOfLength(1001));
+    }
+    
     @Test
     public void should_update_existing_song() {
         Song newSong = new Song(null, "old", "old_text");
@@ -87,7 +119,7 @@ public class SongServiceTest {
     @Test(expected = SongNotFoundException.class)
     public void should_refuse_to_update_nonexistent_song() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
-    
+        
         service.update(1L, "new", "new_text");
     }
     
@@ -104,5 +136,9 @@ public class SongServiceTest {
     public void should_fail_to_delete_nonexistent_song() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
         service.delete(1L);
+    }
+    
+    private String createStringOfLength(int length) {
+        return new String(new char[length]).replace('\0', 'X');
     }
 }
