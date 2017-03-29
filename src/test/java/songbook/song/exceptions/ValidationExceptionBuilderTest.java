@@ -23,9 +23,9 @@ public class ValidationExceptionBuilderTest {
         
         assertThat(exception.errors).hasSize(2);
         assertThat(exception.errors.get(0).field).isEqualTo("a");
-        assertThat(exception.errors.get(0).cause).isEqualTo("b");
+        assertThat(exception.errors.get(0).message).isEqualTo("b");
         assertThat(exception.errors.get(1).field).isEqualTo("c");
-        assertThat(exception.errors.get(1).cause).isEqualTo("d");
+        assertThat(exception.errors.get(1).message).isEqualTo("d");
     }
     
     @Test

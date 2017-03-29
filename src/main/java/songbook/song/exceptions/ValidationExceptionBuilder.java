@@ -8,14 +8,14 @@ import static songbook.song.exceptions.ValidationException.*;
 public class ValidationExceptionBuilder {
     private List<FieldError> errors = new ArrayList<>();
     
-    public ValidationExceptionBuilder add(String field, String cause) {
-        errors.add(new FieldError(field, cause));
+    public ValidationExceptionBuilder add(String field, String message) {
+        errors.add(new FieldError(field, message));
         return this;
     }
     
-    public ValidationExceptionBuilder add(boolean isValid, String field, String cause) {
+    public ValidationExceptionBuilder add(boolean isValid, String field, String message) {
         if (!isValid) {
-            add(field, cause);
+            add(field, message);
         }
         return this;
     }

@@ -16,11 +16,11 @@ public class ValidationException extends RuntimeException {
     }
     
     public static class FieldError {
-        public final String field, cause;
+        public final String field, message;
         
-        FieldError(String field, String cause) {
+        FieldError(String field, String message) {
             this.field = field;
-            this.cause = cause;
+            this.message = message;
         }
     }
 }

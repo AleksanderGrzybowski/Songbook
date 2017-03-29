@@ -60,6 +60,7 @@ class App extends Component {
                 mode={this.props.songModal.mode}
                 title={this.props.songModal.title}
                 text={this.props.songModal.text}
+                errors={this.props.songModal.errors}
                 onTextChange={this.props.songModalTextChanged}
                 onTitleChange={this.props.songModalTitleChanged}
                 onSave={this.props.songSave}

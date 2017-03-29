@@ -1,10 +1,18 @@
 import React from 'react';
 
-import { Modal, Button, FormGroup, ControlLabel, FormControl } from 'react-bootstrap';
+import { Modal, Button, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap';
 
-const SongModal = ({mode, title, text, onTitleChange, onTextChange, onClose, onSave}) => {
+const SongModal = ({mode, title, text, errors, onTitleChange, onTextChange, onClose, onSave}) => {
     const isFormValid = title.length !== 0 && text.length !== 0;
     const headerText = (mode === 'create') ? 'Create new song' : 'Update song';
+
+    const errorAlert = errors.length > 0 ? (
+        <Alert bsStyle="danger">
+            <ul>
+                {errors.map(e => <li key={e.message}>{e.message}</li>)}
+            </ul>
+        </Alert>
+    ) : null;
 
     return (
         <Modal show={true} onHide={onClose} backdrop="static">
@@ -12,6 +20,7 @@ const SongModal = ({mode, title, text, onTitleChange, onTextChange, onClose, onS
                 <Modal.Title>{headerText}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+                {errorAlert}
                 <form>
                     <FormGroup>
                         <ControlLabel>Title</ControlLabel>

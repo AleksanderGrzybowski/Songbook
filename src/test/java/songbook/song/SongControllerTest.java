@@ -162,8 +162,8 @@ public class SongControllerTest {
     @Test
     public void should_return_BAD_REQUEST_when_validation_exception_is_thrown() throws Exception {
         when(service.list()).thenThrow(ValidationException.builder()
-                .add("someField1", "some cause 1")
-                .add("someField2", "some cause 2")
+                .add("someField1", "some message 1")
+                .add("someField2", "some message 2")
                 .build()
         );
         
@@ -171,8 +171,8 @@ public class SongControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors", hasSize(2)))
                 .andExpect(jsonPath("$.errors[0].field", is("someField1")))
-                .andExpect(jsonPath("$.errors[0].cause", is("some cause 1")))
+                .andExpect(jsonPath("$.errors[0].message", is("some message 1")))
                 .andExpect(jsonPath("$.errors[1].field", is("someField2")))
-                .andExpect(jsonPath("$.errors[1].cause", is("some cause 2")));
+                .andExpect(jsonPath("$.errors[1].message", is("some message 2")));
     }
 }

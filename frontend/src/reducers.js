@@ -61,17 +61,19 @@ export const songWithLyrics = (state = initialStateSongWithLyrics, action) => {
     }
 };
 
-const initialStateSongModal = {visible: false, mode: '', id: 0, title: '', text: ''};
+const initialStateSongModal = {visible: false, mode: '', id: 0, title: '', text: '', errors: []};
 export const songModal = (state = initialStateSongModal, action) => {
     switch (action.type) {
         case 'SONG_MODAL_OPEN':
             return Object.assign({}, state, {visible: true, mode: action.mode, id: action.id, title: action.title || '', text: action.text || ''});
         case 'SONG_MODAL_CLOSE':
-            return Object.assign({}, state, {visible: false, mode: '', id: 0, title: '', text: ''});
+            return Object.assign({}, initialStateSongModal);
         case 'SONG_MODAL_TITLE_CHANGED':
             return Object.assign({}, state, {title: action.title});
         case 'SONG_MODAL_TEXT_CHANGED':
             return Object.assign({}, state, {text: action.text});
+        case 'SONG_MODAL_PUT_ERRORS':
+            return Object.assign({}, state, {errors: action.errors});
         default:
             return state;
     }

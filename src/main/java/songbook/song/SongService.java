@@ -63,9 +63,9 @@ public class SongService {
     private void validateTitleAndText(String title, String text) {
         ValidationException.builder()
                 .add(title != null && !title.isEmpty() && title.length() <= 100,
-                        "title", "can't be null nor empty, max 100 characters")
+                        "title", "Title is required (max 100 characters)")
                 .add(text != null && !text.isEmpty() && text.length() <= 1000,
-                        "text", "can't be null nor empty, max 1000 characters")
+                        "text", "Text is required (max 1000 characters)")
                 .throwIfErrors();
     }
 }

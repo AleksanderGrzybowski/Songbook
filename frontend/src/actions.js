@@ -60,6 +60,7 @@ export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
 
 export const songModalOpen = (mode, id, title, text) => ({type: 'SONG_MODAL_OPEN', mode, id, title, text});
 export const songModalClose = () => ({type: 'SONG_MODAL_CLOSE'});
+export const songModalPutErrors = (errors) => ({type: 'SONG_MODAL_PUT_ERRORS', errors});
 export const songModalTitleChanged = (title) => ({type: 'SONG_MODAL_TITLE_CHANGED', title});
 export const songModalTextChanged = (text) => ({type: 'SONG_MODAL_TEXT_CHANGED', text});
 
@@ -81,8 +82,7 @@ export const songSave = () => (dispatch, getState) => {
         dispatch(setSelectedSong(data.id));
         dispatch(fetchAndDisplaySongWithLyrics(data.id));
     }).catch(err => {
-        console.log(err);
-        dispatch(backendNotHealthy());
+        dispatch(songModalPutErrors(err.response.data.errors));
     });
 };
 
