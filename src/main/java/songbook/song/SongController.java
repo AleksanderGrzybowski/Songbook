@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import songbook.song.exceptions.SongNotFoundException;
-import songbook.song.exceptions.ValidationException;
-import songbook.song.exceptions.ValidationException.FieldError;
 import songbook.song.dto.SongTitleAndIdDto;
 import songbook.song.dto.SongWithLyricsDto;
+import songbook.song.exceptions.SongNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,20 +77,6 @@ public class SongController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (SongNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-    
-    @ExceptionHandler(ValidationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ValidationExceptionDto handleValidationException(ValidationException e) {
-        return new ValidationExceptionDto(e);
-    }
-    
-    private static class ValidationExceptionDto {
-        public final List<FieldError> errors;
-    
-        ValidationExceptionDto(ValidationException e) {
-            this.errors = e.errors;
         }
     }
 }

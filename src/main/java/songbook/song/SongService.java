@@ -2,6 +2,7 @@ package songbook.song;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import songbook.song.dto.SongWithLyricsDto;
 import songbook.song.exceptions.SongNotFoundException;
 import songbook.song.exceptions.ValidationException;
 
@@ -67,5 +68,11 @@ public class SongService {
                 .add(text != null && !text.isEmpty() && text.length() <= 1000,
                         "text", "Text is required (max 1000 characters)")
                 .throwIfErrors();
+    }
+    
+    public void importSongs(List<SongWithLyricsDto> toImport) {
+        repository.findAll().forEach(song -> repository.delete(song.getId()));
+        
+        toImport.forEach(dto -> create(dto.title, dto.text));
     }
 }

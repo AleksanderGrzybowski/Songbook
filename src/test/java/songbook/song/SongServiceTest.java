@@ -2,9 +2,11 @@ package songbook.song;
 
 import org.junit.Before;
 import org.junit.Test;
+import songbook.song.dto.SongWithLyricsDto;
 import songbook.song.exceptions.SongNotFoundException;
 import songbook.song.exceptions.ValidationException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -136,6 +138,36 @@ public class SongServiceTest {
     public void should_fail_to_delete_nonexistent_song() {
         when(repository.findById(1L)).thenReturn(Optional.empty());
         service.delete(1L);
+    }
+    
+    @Test()
+    public void should_remove_all_songs_if_asked_to_import_no_songs() {
+        when(repository.findAll()).thenReturn(songs);
+        
+        service.importSongs(Collections.emptyList());
+        
+        verify(repository, times(1)).delete(1L);
+        verify(repository, times(1)).delete(2L);
+    }
+    
+    @Test()
+    public void should_replace_existing_songs_with_the_imported_ones() {
+        when(repository.findAll()).thenReturn(songs);
+        
+        service.importSongs(asList(
+                new SongWithLyricsDto(null, "import1", "import1_text"),
+                new SongWithLyricsDto(null, "import2", "import2_text"))
+        );
+        
+        verify(repository, times(1)).delete(1L);
+        verify(repository, times(1)).delete(2L);
+        verify(repository, times(1)).save(new Song(null, "import1", "import1_text"));
+        verify(repository, times(1)).save(new Song(null, "import2", "import2_text"));
+    }
+    
+    @Test(expected = ValidationException.class)
+    public void should_refuse_to_import_songs_with_errors() {
+        service.importSongs(singletonList(new SongWithLyricsDto(null, null, null)));
     }
     
     private String createStringOfLength(int length) {

@@ -36,7 +36,9 @@ public class SongControllerTest {
     @Before
     public void setup() {
         service = mock(SongService.class);
-        mockMvc = standaloneSetup(new SongController(service)).build();
+        mockMvc = standaloneSetup(new SongController(service))
+                .setControllerAdvice(new ValidationExceptionHandlerController())
+                .build();
     }
     
     @Test
