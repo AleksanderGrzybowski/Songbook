@@ -7,6 +7,7 @@ import Lyrics from './components/Lyrics';
 import SongModal from './components/SongModal';
 import DeleteSongModal from './components/DeleteSongModal';
 import LyricsControls from './components/LyricsControls';
+import { translate } from 'react-i18next';
 
 class App extends Component {
     render() {
@@ -34,7 +35,7 @@ class App extends Component {
                     <Col md={3}>
                         <Button style={{marginBottom: '5px'}} bsStyle="primary"
                                 onClick={() => this.props.songModalOpen('create')}>
-                            <span className="glyphicon glyphicon-plus"/> New song
+                            <span className="glyphicon glyphicon-plus"/>{this.props.t('newSong')}...
                         </Button>
                         <SongList
                             songs={this.props.songList.songs}
@@ -96,4 +97,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default translate()(App);

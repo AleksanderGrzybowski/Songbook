@@ -1,9 +1,10 @@
 import React from 'react';
 import { ListGroup } from 'react-bootstrap';
+import { translate } from 'react-i18next';
 
-const SongList = ({songs, selectedSongId, onSongClick}) => {
+const SongList = ({songs, selectedSongId, onSongClick, t}) => {
     if (songs.length === 0) {
-        return <h3 className="text-center">No results...</h3>
+        return <h3 className="text-center">{t('noResults')}</h3>
     }
 
     const items = songs.map(song => (
@@ -24,4 +25,4 @@ const SongList = ({songs, selectedSongId, onSongClick}) => {
     )
 };
 
-export default SongList;
+export default translate()(SongList);

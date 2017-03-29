@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { Modal, Button, FormGroup, ControlLabel, FormControl, Alert } from 'react-bootstrap';
+import { translate } from 'react-i18next';
 
-const SongModal = ({mode, title, text, errors, onTitleChange, onTextChange, onClose, onSave}) => {
+const SongModal = ({mode, title, text, errors, onTitleChange, onTextChange, onClose, onSave, t}) => {
     const isFormValid = title.length !== 0 && text.length !== 0;
-    const headerText = (mode === 'create') ? 'Create new song' : 'Update song';
+    const headerText = t((mode === 'create') ? 'createNewSong' : 'editSong');
 
     const errorAlert = errors.length > 0 ? (
         <Alert bsStyle="danger">
@@ -23,20 +24,20 @@ const SongModal = ({mode, title, text, errors, onTitleChange, onTextChange, onCl
                 {errorAlert}
                 <form>
                     <FormGroup>
-                        <ControlLabel>Title</ControlLabel>
+                        <ControlLabel>{t('songTitle')}</ControlLabel>
                         <FormControl
                             type="text"
-                            label="Title"
-                            placeholder="Title"
+                            label={t('songTitle')}
+                            placeholder={t('songTitle')}
                             value={title}
                             onChange={(e) => onTitleChange(e.target.value)}
                         />
                     </FormGroup>
                     <FormGroup >
-                        <ControlLabel>Lyrics</ControlLabel>
+                        <ControlLabel>{t('songLyrics')}</ControlLabel>
                         <FormControl
                             componentClass="textarea"
-                            placeholder="Lyrics..."
+                            placeholder="..."
                             style={{height: '30vh'}}
                             value={text}
                             onChange={(e) => onTextChange(e.target.value)}
@@ -46,11 +47,11 @@ const SongModal = ({mode, title, text, errors, onTitleChange, onTextChange, onCl
             </Modal.Body>
             <Modal.Footer>
                 <Button bsStyle="success" onClick={onSave} disabled={!isFormValid}>
-                    Save
+                    {t('save')}
                 </Button>
             </Modal.Footer>
         </Modal>
     )
 };
 
-export default SongModal;
+export default translate()(SongModal);

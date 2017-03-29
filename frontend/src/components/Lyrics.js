@@ -1,4 +1,5 @@
 import React from 'react';
+import { translate } from 'react-i18next';
 
 const textStyle = {
     fontFamily: 'inherit',
@@ -6,7 +7,7 @@ const textStyle = {
     whiteSpace: 'pre'
 };
 
-const Lyrics = ({controls, isPresent, title, text}) => {
+const Lyrics = ({controls, isPresent, title, text, t}) => {
     const main = (
         <div>
             <h1 className="text-center">
@@ -22,11 +23,11 @@ const Lyrics = ({controls, isPresent, title, text}) => {
 
     const empty = (
         <div>
-            <h3 className="text-center">Pick a song from the left, or search...</h3>
+            <h3 className="text-center">{t('pickSongOrSearch')}</h3>
         </div>
     );
 
     return isPresent ? main : empty;
 };
 
-export default Lyrics;
+export default translate()(Lyrics);
