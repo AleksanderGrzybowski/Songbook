@@ -73,6 +73,7 @@ export const songModal = (state = initialStateSongModal, action) => {
                 text: action.text || ''
             });
         case 'SONG_MODAL_CLOSE':
+        case 'CLOSE_ALL_MODALS':
             return Object.assign({}, initialStateSongModal);
         case 'SONG_MODAL_TITLE_CHANGED':
             return Object.assign({}, state, {title: action.title});
@@ -91,6 +92,7 @@ export const deleteSongModal = (state = initialStateDeleteSongModal, action) => 
         case 'DELETE_SONG_MODAL_OPEN':
             return Object.assign({}, state, {visible: true, id: action.id});
         case 'DELETE_SONG_MODAL_CLOSE':
+        case 'CLOSE_ALL_MODALS':
             return Object.assign({}, state, {visible: false, id: 0});
         default:
             return state;
@@ -103,6 +105,7 @@ export const importModal = (state = initialStateImportModal, action) => {
         case 'IMPORT_MODAL_OPEN':
             return Object.assign({}, state, {visible: true});
         case 'IMPORT_MODAL_CLOSE':
+        case 'CLOSE_ALL_MODALS':
             return Object.assign({}, initialStateImportModal);
         case 'IMPORT_MODAL_DATA_CHANGED':
             return Object.assign({}, state, {data: action.data, isError: false});

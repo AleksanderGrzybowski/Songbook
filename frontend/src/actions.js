@@ -2,7 +2,11 @@ import axios from 'axios';
 import backendUrl from './backendUrl';
 
 
-const backendNotHealthy = () => ({type: 'BACKEND_HEALTH_CHECK_FAIL'});
+const backendNotHealthy = () => (dispatch) => {
+    dispatch({type: 'CLOSE_ALL_MODALS'});
+    dispatch({type: 'BACKEND_HEALTH_CHECK_FAIL'});
+};
+
 const backendHealthy = () => ({type: 'BACKEND_HEALTH_CHECK_SUCCESS'});
 export const healthCheck = () => (dispatch) => {
     axios.get(`${backendUrl}/health`, {timeout: 10000})
@@ -82,7 +86,11 @@ export const songSave = () => (dispatch, getState) => {
         dispatch(setSelectedSong(data.id));
         dispatch(fetchAndDisplaySongWithLyrics(data.id));
     }).catch(err => {
-        dispatch(songModalPutErrors(err.response.data.errors));
+        if (err.response.status === 400) {
+            dispatch(songModalPutErrors(err.response.data.errors));
+        } else {
+            dispatch(backendNotHealthy());
+        }
     });
 };
 
