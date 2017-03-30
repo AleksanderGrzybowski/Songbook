@@ -24,10 +24,9 @@ const resources = {
         }
     }
 };
+
 export default i18n.init({
         lng: 'pl',
-        // fallbackLng: "en",
-        debug: true,
         resources: resources
     }
 );
