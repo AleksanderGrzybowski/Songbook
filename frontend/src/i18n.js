@@ -18,7 +18,10 @@ const polish = {
     importFileSummary: 'Wielkość: {{size}}B, ilość utworów: {{count}}',
     importError: 'Błąd importu, sprawdź czy plik jest poprawny',
     importWarning: 'Zaimportowanie spowoduje całkowite zastąpienie istniejących danych!',
-    fileNotRecognized: 'Plik nierozpoznany'
+    fileNotRecognized: 'Plik nierozpoznany',
+    areYouSure: 'Czy jesteś pewien?',
+    confirmation: 'Potwierdź',
+    goBack: 'Powrót'
 };
 
 export default i18n.init({lng: 'pl', resources: {pl: {translation: polish}}});
