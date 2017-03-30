@@ -3,16 +3,7 @@ import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { connect, Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import {
-    health,
-    view,
-    searchInput,
-    songList,
-    songWithLyrics,
-    songModal,
-    deleteSongModal,
-    importModal
-} from './reducers';
+import * as reducers from './reducers';
 import {
     healthCheck,
     changeView,
@@ -42,7 +33,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 
 const store = createStore(
-    combineReducers({health, view, searchInput, songList, songWithLyrics, songModal, deleteSongModal, importModal}),
+    combineReducers({...reducers}),
     applyMiddleware(thunk, createLogger({collapsed: true}))
 );
 

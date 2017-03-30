@@ -11,7 +11,7 @@ export const health = (state = initialStateHealth, action) => {
 };
 
 const initialStateView = {
-    currentView: 'main',
+    currentView: 'main'
 };
 
 export const view = (state = initialStateView, action) => {
@@ -74,7 +74,7 @@ export const songModal = (state = initialStateSongModal, action) => {
             });
         case 'SONG_MODAL_CLOSE':
         case 'CLOSE_ALL_MODALS':
-            return Object.assign({}, initialStateSongModal);
+            return initialStateSongModal;
         case 'SONG_MODAL_TITLE_CHANGED':
             return Object.assign({}, state, {title: action.title});
         case 'SONG_MODAL_TEXT_CHANGED':
@@ -93,7 +93,7 @@ export const deleteSongModal = (state = initialStateDeleteSongModal, action) => 
             return Object.assign({}, state, {visible: true, id: action.id});
         case 'DELETE_SONG_MODAL_CLOSE':
         case 'CLOSE_ALL_MODALS':
-            return Object.assign({}, state, {visible: false, id: 0});
+            return initialStateDeleteSongModal;
         default:
             return state;
     }
@@ -106,7 +106,7 @@ export const importModal = (state = initialStateImportModal, action) => {
             return Object.assign({}, state, {visible: true});
         case 'IMPORT_MODAL_CLOSE':
         case 'CLOSE_ALL_MODALS':
-            return Object.assign({}, initialStateImportModal);
+            return initialStateImportModal;
         case 'IMPORT_MODAL_DATA_CHANGED':
             return Object.assign({}, state, {data: action.data, isError: false});
         case 'IMPORT_MODAL_ERROR':

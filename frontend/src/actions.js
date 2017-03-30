@@ -2,7 +2,8 @@ import axios from 'axios';
 import backendUrl from './backendUrl';
 
 
-const backendNotHealthy = () => (dispatch) => {
+const backendNotHealthy = (err) => (dispatch) => {
+    console.log(err);
     dispatch({type: 'CLOSE_ALL_MODALS'});
     dispatch({type: 'BACKEND_HEALTH_CHECK_FAIL'});
 };
@@ -11,10 +12,7 @@ const backendHealthy = () => ({type: 'BACKEND_HEALTH_CHECK_SUCCESS'});
 export const healthCheck = () => (dispatch) => {
     axios.get(`${backendUrl}/health`, {timeout: 10000})
         .then(() => dispatch(backendHealthy()))
-        .catch(err => {
-            console.log(err);
-            dispatch(backendNotHealthy());
-        })
+        .catch(err => dispatch(backendNotHealthy(err)));
 };
 
 export const changeView = (view) => ({type: 'CHANGE_VIEW', view});
@@ -26,10 +24,7 @@ export const fetchAllSongs = () => (dispatch) => {
 
     axios.get(`${backendUrl}/songs`)
         .then(({data}) => dispatch(loadSongs(data)))
-        .catch(err => {
-            console.log(err);
-            dispatch(backendNotHealthy());
-        })
+        .catch(err => dispatch(backendNotHealthy(err)));
 };
 
 export const fetchSongsFiltered = (query) => (dispatch) => {
@@ -37,10 +32,7 @@ export const fetchSongsFiltered = (query) => (dispatch) => {
 
     axios.get(`${backendUrl}/songs?query=${query}`)
         .then(({data}) => dispatch(loadSongs(data)))
-        .catch(err => {
-            console.log(err);
-            dispatch(backendNotHealthy());
-        })
+        .catch(err => dispatch(backendNotHealthy(err)));
 };
 
 export const setSelectedSong = (id) => ({type: 'SET_SELECTED_SONG', id});
@@ -56,10 +48,7 @@ const emptyLyrics = (data) => ({type: 'EMPTY_LYRICS'});
 export const fetchAndDisplaySongWithLyrics = (id) => (dispatch) => {
     axios.get(`${backendUrl}/songs/${id}`)
         .then(({data}) => dispatch(loadSongWithLyrics(data)))
-        .catch(err => {
-            console.log(err);
-            dispatch(backendNotHealthy());
-        })
+        .catch(err => dispatch(backendNotHealthy(err)));
 };
 
 export const songModalOpen = (mode, id, title, text) => ({type: 'SONG_MODAL_OPEN', mode, id, title, text});
@@ -89,7 +78,7 @@ export const songSave = () => (dispatch, getState) => {
         if (err.response.status === 400) {
             dispatch(songModalPutErrors(err.response.data.errors));
         } else {
-            dispatch(backendNotHealthy());
+            dispatch(backendNotHealthy(err));
         }
     });
 };
@@ -105,10 +94,7 @@ export const deleteSong = (id) => (dispatch) => {
             dispatch(emptyLyrics());
             dispatch(unsetSelectedSong());
         })
-        .catch(err => {
-            console.log(err);
-            dispatch(backendNotHealthy());
-        });
+        .catch(err => dispatch(backendNotHealthy(err)));
 };
 
 export const importModalOpen = () => ({type: 'IMPORT_MODAL_OPEN'});
@@ -126,11 +112,6 @@ export const importSongs = () => (dispatch, getState) => {
     }
 
     axios.post(`${backendUrl}/import`, json)
-        .then(() => {
-            location.reload();
-        })
-        .catch(err => {
-            console.log(err);
-            dispatch(importModalError());
-        });
+        .then(() => location.reload())
+        .catch(() => dispatch(importModalError()));
 };
