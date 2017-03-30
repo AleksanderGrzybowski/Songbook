@@ -13,7 +13,14 @@ const resources = {
             edit: 'Edytuj',
             'delete': 'Usuń',
             pickSongOrSearch: 'Wybierz z listy lub wyszukaj',
-            newSong: 'Nowy utwór'
+            newSong: 'Nowy utwór',
+            importSongs: 'Import',
+            selectImportFile: 'Wybierz plik',
+            performImport: 'Zaimportuj',
+            importFileSummary: 'Wielkość: {{size}}B, ilość utworów: {{count}}',
+            importError: 'Błąd importu, sprawdź czy plik jest poprawny',
+            importWarning: 'Zaimportowanie spowoduje całkowite zastąpienie istniejących danych!',
+            fileNotRecognized: 'Plik nierozpoznany'
         }
     }
 };

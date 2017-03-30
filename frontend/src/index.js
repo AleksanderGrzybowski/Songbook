@@ -10,7 +10,8 @@ import {
     songList,
     songWithLyrics,
     songModal,
-    deleteSongModal
+    deleteSongModal,
+    importModal
 } from './reducers';
 import {
     healthCheck,
@@ -29,6 +30,10 @@ import {
     deleteSong,
     deleteSongModalClose,
 
+    importSongs,
+    importModalDataChanged,
+    importModalOpen,
+    importModalClose
 } from './actions';
 import App from './App';
 import createLogger from 'redux-logger';
@@ -37,7 +42,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 
 const store = createStore(
-    combineReducers({health, view, searchInput, songList, songWithLyrics, songModal, deleteSongModal}),
+    combineReducers({health, view, searchInput, songList, songWithLyrics, songModal, deleteSongModal, importModal}),
     applyMiddleware(thunk, createLogger({collapsed: true}))
 );
 
@@ -57,7 +62,12 @@ const mapDispatchToProps = (dispatch) => ({
     songModalTextChanged: (text) => dispatch(songModalTextChanged(text)),
     deleteSong: (id) => dispatch(deleteSong(id)),
     deleteSongModalOpen: () => dispatch(deleteSongModalOpen()),
-    deleteSongModalClose: () => dispatch(deleteSongModalClose())
+    deleteSongModalClose: () => dispatch(deleteSongModalClose()),
+   
+    importSongs: () => dispatch(importSongs()),
+    importModalDataChanged: (data) => dispatch(importModalDataChanged(data)),
+    importModalOpen: () => dispatch(importModalOpen()),
+    importModalClose: () => dispatch(importModalClose())
 });
 
 const LiveApp = connect(mapStateToProps, mapDispatchToProps)(App);

@@ -10,6 +10,7 @@
     "react": "^15.4.2",
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.4.2",
+    "react-file-reader-input": "^1.1.0",
     "react-i18next": "latest",
     "react-redux": "^5.0.3",
     "react-spinkit": "^2.1.1",

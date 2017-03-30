@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ErrorPage from './components/ErrorPage';
-import { Row, Col, Grid, Button } from 'react-bootstrap';
+import { Row, Col, Grid, Button, ButtonGroup } from 'react-bootstrap';
 import SongList from './components/SongList';
 import SearchInput from './components/SearchInput';
 import Lyrics from './components/Lyrics';
@@ -8,6 +8,7 @@ import SongModal from './components/SongModal';
 import DeleteSongModal from './components/DeleteSongModal';
 import LyricsControls from './components/LyricsControls';
 import { translate } from 'react-i18next';
+import ImportModal from './components/ImportModal';
 
 class App extends Component {
     render() {
@@ -33,10 +34,16 @@ class App extends Component {
                 </Row>
                 <Row>
                     <Col md={3}>
-                        <Button style={{marginBottom: '5px'}} bsStyle="primary"
-                                onClick={() => this.props.songModalOpen('create')}>
-                            <span className="glyphicon glyphicon-plus"/>{this.props.t('newSong')}...
-                        </Button>
+                        <ButtonGroup>
+                            <Button style={{marginBottom: '5px'}} bsStyle="primary"
+                                    onClick={() => this.props.songModalOpen('create')}>
+                                <span className="glyphicon glyphicon-plus"/>{this.props.t('newSong')}...
+                            </Button>
+                            <Button style={{marginBottom: '5px'}}
+                                    onClick={this.props.importModalOpen}>
+                                <span className="glyphicon glyphicon-plus"/>{this.props.t('importSongs')}...
+                            </Button>
+                        </ButtonGroup>
                         <SongList
                             songs={this.props.songList.songs}
                             selectedSongId={this.props.songList.selectedSongId}
@@ -77,6 +84,17 @@ class App extends Component {
             />
         ) : null;
 
+        const importModal = this.props.importModal.visible ? (
+            <ImportModal
+                onImport={this.props.importSongs}
+                onDataChange={this.props.importModalDataChanged}
+                onClose={this.props.importModalClose}
+                isError={this.props.importModal.isError}
+                data={this.props.importModal.data}
+                id={this.props.songList.selectedSongId}
+            />
+        ) : null;
+
         let component;
 
         if (!this.props.health.healthy) {
@@ -92,6 +110,7 @@ class App extends Component {
                 {component}
                 {createSongModal}
                 {deleteSongModal}
+                {importModal}
             </Grid>
         )
     }

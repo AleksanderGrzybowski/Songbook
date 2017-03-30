@@ -102,3 +102,27 @@ export const deleteSong = (id) => (dispatch) => {
             dispatch(backendNotHealthy());
         });
 };
+
+export const importModalOpen = () => ({type: 'IMPORT_MODAL_OPEN'});
+export const importModalClose = () => ({type: 'IMPORT_MODAL_CLOSE'});
+export const importModalError = () => ({type: 'IMPORT_MODAL_ERROR'});
+
+export const importModalDataChanged = (data) => ({type: 'IMPORT_MODAL_DATA_CHANGED', data});
+export const importSongs = () => (dispatch, getState) => {
+    let json;
+    try {
+        json = JSON.parse(getState().importModal.data);
+    } catch (e) {
+        dispatch(importModalError());
+        return;
+    }
+
+    axios.post(`${backendUrl}/import`, json)
+        .then(() => {
+            location.reload();
+        })
+        .catch(err => {
+            console.log(err);
+            dispatch(importModalError());
+        });
+};

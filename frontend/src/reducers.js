@@ -65,7 +65,13 @@ const initialStateSongModal = {visible: false, mode: '', id: 0, title: '', text:
 export const songModal = (state = initialStateSongModal, action) => {
     switch (action.type) {
         case 'SONG_MODAL_OPEN':
-            return Object.assign({}, state, {visible: true, mode: action.mode, id: action.id, title: action.title || '', text: action.text || ''});
+            return Object.assign({}, state, {
+                visible: true,
+                mode: action.mode,
+                id: action.id,
+                title: action.title || '',
+                text: action.text || ''
+            });
         case 'SONG_MODAL_CLOSE':
             return Object.assign({}, initialStateSongModal);
         case 'SONG_MODAL_TITLE_CHANGED':
@@ -86,6 +92,22 @@ export const deleteSongModal = (state = initialStateDeleteSongModal, action) => 
             return Object.assign({}, state, {visible: true, id: action.id});
         case 'DELETE_SONG_MODAL_CLOSE':
             return Object.assign({}, state, {visible: false, id: 0});
+        default:
+            return state;
+    }
+};
+
+const initialStateImportModal = {visible: false, data: '', isError: false};
+export const importModal = (state = initialStateImportModal, action) => {
+    switch (action.type) {
+        case 'IMPORT_MODAL_OPEN':
+            return Object.assign({}, state, {visible: true});
+        case 'IMPORT_MODAL_CLOSE':
+            return Object.assign({}, initialStateImportModal);
+        case 'IMPORT_MODAL_DATA_CHANGED':
+            return Object.assign({}, state, {data: action.data, isError: false});
+        case 'IMPORT_MODAL_ERROR':
+            return Object.assign({}, state, {isError: true});
         default:
             return state;
     }
