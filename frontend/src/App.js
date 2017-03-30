@@ -4,11 +4,11 @@ import { Row, Col, Grid, Button, ButtonGroup } from 'react-bootstrap';
 import SongList from './components/SongList';
 import SearchInput from './components/SearchInput';
 import Lyrics from './components/Lyrics';
-import SongModal from './components/SongModal';
-import DeleteSongModal from './components/DeleteSongModal';
+import SongModal from './components/modals/SongModal';
+import DeleteSongModal from './components/modals/DeleteSongModal';
 import LyricsControls from './components/LyricsControls';
 import { translate } from 'react-i18next';
-import ImportModal from './components/ImportModal';
+import ImportModal from './components/modals/ImportModal';
 
 class App extends Component {
     render() {
