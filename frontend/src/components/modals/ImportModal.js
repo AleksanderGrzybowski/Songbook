@@ -23,14 +23,18 @@ const ImportModal = ({data, isError, onDataChange, onClose, onImport, t}) => {
             <Modal.Header closeButton>
                 <Modal.Title>{t('importSongs')}</Modal.Title>
             </Modal.Header>
+            
             <Modal.Body>
                 <p>{t('importWarning')}</p>
                 {errorAlert}
+                
                 <FileReaderInput as="text" id="my-file-input" onChange={(_, arg) => onFileChange(arg[0][1])}>
                     <Button block>{t('selectImportFile')}...</Button>
                 </FileReaderInput>
+                
                 <FileInfo data={data}/>
             </Modal.Body>
+            
             <Modal.Footer>
                 <Button bsStyle="success" onClick={onImport} disabled={data.length === 0}>
                     {t('performImport')}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ErrorPage from './components/ErrorPage';
-import { Row, Col, Grid, Button, ButtonGroup } from 'react-bootstrap';
+import { Row, Col, Grid, Button, ButtonGroup, Glyphicon } from 'react-bootstrap';
 import SongList from './components/SongList';
 import SearchInput from './components/SearchInput';
 import Lyrics from './components/Lyrics';
@@ -12,15 +12,17 @@ import ImportModal from './components/modals/ImportModal';
 
 class App extends Component {
     render() {
-        const lyricsControls = <LyricsControls
-            onEdit={() => this.props.songModalOpen(
-                'update',
-                this.props.songList.selectedSongId,
-                this.props.songWithLyrics.title,
-                this.props.songWithLyrics.text,
-            )}
-            onDelete={this.props.deleteSongModalOpen}
-        />;
+        const lyricsControls = (
+            <LyricsControls
+                onEdit={() => this.props.songModalOpen(
+                    'update',
+                    this.props.songList.selectedSongId,
+                    this.props.songWithLyrics.title,
+                    this.props.songWithLyrics.text,
+                )}
+                onDelete={this.props.deleteSongModalOpen}
+            />
+        );
 
         const mainView = (
             <div>
@@ -37,13 +39,15 @@ class App extends Component {
                         <ButtonGroup>
                             <Button style={{marginBottom: '5px'}} bsStyle="primary"
                                     onClick={() => this.props.songModalOpen('create')}>
-                                <span className="glyphicon glyphicon-plus"/>{this.props.t('newSong')}...
+                                <Glyphicon glyph="plus"/> {this.props.t('newSong')}...
                             </Button>
+                            
                             <Button style={{marginBottom: '5px'}}
                                     onClick={this.props.importModalOpen}>
-                                <span className="glyphicon glyphicon-plus"/>{this.props.t('importSongs')}...
+                                <Glyphicon glyph="upload"/> {this.props.t('importSongs')}...
                             </Button>
                         </ButtonGroup>
+                        
                         <SongList
                             songs={this.props.songList.songs}
                             selectedSongId={this.props.songList.selectedSongId}

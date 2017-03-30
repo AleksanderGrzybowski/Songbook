@@ -21,7 +21,9 @@ const polish = {
     fileNotRecognized: 'Plik nierozpoznany',
     areYouSure: 'Czy jesteś pewien?',
     confirmation: 'Potwierdź',
-    goBack: 'Powrót'
+    goBack: 'Powrót',
+    somethingWentWrong: 'Przepraszamy, wystąpił nieoczekiwany błąd.',
+    refresh: 'Odśwież'
 };
 
 export default i18n.init({lng: 'pl', resources: {pl: {translation: polish}}});

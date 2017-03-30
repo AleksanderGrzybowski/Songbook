@@ -18,11 +18,7 @@ const SongList = ({songs, selectedSongId, onSongClick, t}) => {
         </a>
     ));
 
-    return (
-        <ListGroup style={{height: '80vh', overflowY: 'auto'}}>
-            {items}
-        </ListGroup>
-    )
+    return <ListGroup style={{height: '80vh', overflowY: 'auto'}}>{items}</ListGroup>;
 };
 
 export default translate()(SongList);

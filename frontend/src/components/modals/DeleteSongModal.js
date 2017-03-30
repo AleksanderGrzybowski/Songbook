@@ -7,9 +7,9 @@ const DeleteSongModal = ({onClose, onDelete, id, t}) => (
         <Modal.Header closeButton>
             <Modal.Title>{t('confirmation')}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-            {t('areYouSure')}
-        </Modal.Body>
+
+        <Modal.Body>{t('areYouSure')}</Modal.Body>
+
         <Modal.Footer>
             <Button onClick={onClose}>{t('goBack')}</Button>
             <Button bsStyle="danger" onClick={() => onDelete(id)}>{t('delete')}</Button>
